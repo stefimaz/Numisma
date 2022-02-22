@@ -7,8 +7,8 @@ import streamlit as st
 from PIL import Image
 
 st.set_page_config(page_title='Numisma: Diversify your crypto holdings', layout='wide')
-#image = Image.open("./Images/Cryptos.jpeg")
-#st.image(image, width=900)
+image = Image.open("./Images/Cryptos.jpeg")
+st.image(image, width=900)
 st.title("Numisma. Crypto Index Portfolio Management")
 
 portfolios = ['Metadex Portfolio', 'Ventidex Portfolio', 'Farmdex Portfolio']
