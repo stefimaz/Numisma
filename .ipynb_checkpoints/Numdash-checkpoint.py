@@ -61,14 +61,14 @@ accounts = w3.eth.accounts
 
 # Use a streamlit component to get the address of the artwork owner from the user
 address = st.selectbox("Select your wallet", accounts)
-
+amount = st.number_input("How many shares do you want to buy?")
 # Use a streamlit component to get the contract URI
 # contract_uri = st.text_input("The URI to the artwork")
 
 if st.button("Buy Now"):
 
     # Use the contract to send a transaction to the safeMint function
-    tx_hash = contract.functions.safeMint(address).transact({
+    tx_hash = contract.functions.safeMint(address, amount).transact({
         "from": address, "gas": 1000000})
 
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
