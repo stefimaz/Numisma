@@ -48,4 +48,5 @@ def calculate_efficient_frontier(asset_prices):
 
     optimal_portfolio = portfolios_df.iloc[((portfolios_df['Returns'] - risk_free_rate) /portfolios_df['Volatility']).idxmax()]
     
+    
     return optimal_portfolio['Weights']
