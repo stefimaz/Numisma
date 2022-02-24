@@ -181,3 +181,53 @@ def get_px_history(p_symbol):
     px_history_df = px_history_df.set_index('date')
     
     return px_history_df 
+
+#Our 3 ETF Sample - 
+#file_path = Path('./Reference/sampleETF.csv')
+#coinData.create_index_from_csv(file_path, 'ETF_LIST')
+#coinData.create_sampleETF
+#Coinbase100  -- Ventidex
+#TopMetaverseTokens -- Metadex
+#YieldFarmingCoins -- Farmdex
+#coinData.create_sampleETF
+
+def get_symbollist_by_index(etf_name = None):
+    if etf_name is not None:
+        sql_query = f"""
+        SELECT DISTINCT symbol FROM ETF_LIST WHERE ETF = '{etf_name}' """
+    else:
+        sql_query = f"""
+        SELECT DISTINCT symbol FROM ETF_LIST"""
+    
+    etf_list= pd.read_sql_query(sql_query, crypto_data_connection_string)
+    symbol_list = get_where_condition(etf_list, 'symbol')
+    return symbol_list
+
+def get_pxhist_by_symbol_list(symbol_list, column_name = None, start_date = None, end_date = None):
+    
+    if column_name is not None:
+        select = f"date, symbol, {column_name}"
+    else:
+        select = '*'
+    
+    
+    if start_date is not None and end_date is not None:
+        sql_query  = f"SELECT DISTINCT {select} FROM CRYPTO_PX_HISTORY WHERE symbol in ({symbol_list}) and (date >='{start_date}' and date <= '{end_date}')"
+    elif start_date is not None:
+        sql_query  = f"SELECT DISTINCT {select} FROM CRYPTO_PX_HISTORY WHERE symbol in ({symbol_list}) and date >='{start_date}'"
+    elif end_date is not None:
+        sql_query  = f"SELECT DISTINCT {select} FROM CRYPTO_PX_HISTORY WHERE symbol in ({symbol_list}) and date <='{end_date}'"
+    else:
+        sql_query  = f"SELECT DISTINCT {select} FROM CRYPTO_PX_HISTORY WHERE symbol in ({symbol_list})"
+    
+    px_history_df = pd.read_sql_query(sql_query, crypto_data_connection_string)
+    if 'index' in px_history_df.columns:
+        px_history_df = px_history_df.drop(['index'], axis = 1)
+    px_history_df = px_history_df.set_index('date')
+    
+    return px_history_df
+    
+def get_pxhist_by_etfname(etf_name = None, column_name = None, start_date = None, end_date = None):
+    symbol_list = get_symbollist_by_index(etf_name)
+    px_history_df = get_pxhist_by_symbol_list(symbol_list, column_name, start_date, end_date)
+    return px_history_df
