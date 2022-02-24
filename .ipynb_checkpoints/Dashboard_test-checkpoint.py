@@ -142,13 +142,13 @@ st.markdown("---")
 ################################################################################
 # Helper functions to pin files and json to Pinata
 ################################################################################
-def pin_artwork(artwork_name, artwork_file):
+def pin_artwork(index_name, artwork_file):
     # Pin the file to IPFS with Pinata
     ipfs_file_hash = pin_file_to_ipfs(artwork_file)
 
     # Build a token metadata file for the artwork
     token_json = {
-        "name": artwork_name,
+        "name": index_name,
         "image": ipfs_file_hash
     }
     json_data = convert_data_to_json(token_json)
@@ -168,8 +168,8 @@ def pin_appraisal_report(report_content):
 # Register New Porfolio
 ################################################################################
 st.markdown("## Register Your Portfolio")
-artwork_name = st.text_input("Enter the name of your portfolio")
-artist_name = st.text_input("Enter your full name")
+index_name = st.text_input("Enter the name of your portfolio")
+holder_name = st.text_input("Enter your full name")
 initial_appraisal_value = st.text_input("Enter the initial investment amount")
 #file = portfolios_dict[selected_portfolio]['Logo']
 #file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"])
@@ -177,12 +177,12 @@ file = st.camera_input("Picture recording")
 
 if st.button("Register Artwork"):
     # Use the `pin_artwork` helper function to pin the file to IPFS
-    artwork_ipfs_hash =  pin_artwork(artwork_name, file)
+    artwork_ipfs_hash =  pin_artwork(index_name, file)
     artwork_uri = f"ipfs://{artwork_ipfs_hash}"
     tx_hash = contract2.functions.registerArtwork(
         address,
-        artwork_name,
-        artist_name,
+        index_name,
+        holder_name,
         int(initial_appraisal_value),
         artwork_uri 
     ).transact({'from': address, 'gas': 1000000})
