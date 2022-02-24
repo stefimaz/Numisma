@@ -130,7 +130,7 @@ amount = st.number_input("How many shares do you want to buy?", min_value=1, val
 if st.button("Buy Now"):
 
     # Use the contract to send a transaction to the safeMint function
-    tx_hash = contract3.functions.purchase().transact({
+    tx_hash = contract3.functions.purchase(address, amount).transact({
         "from": address, "gas": 1000000})
 
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
@@ -193,4 +193,28 @@ if st.button("Register Artwork"):
     st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
 st.markdown("---")
 
+################################################################################
+# Display a Token
+################################################################################
+st.markdown("## Display my Token")
 
+#selected_address = st.selectbox("Select Account", options=accounts)
+
+tokens = contract3.functions.balanceOf(address).call()
+
+st.write(f"This address owns {tokens} tokens")
+
+# token_id = st.selectbox("Index Portfolio Tokens", list(range(tokens)))
+
+if st.button("Display"):
+
+    # Use the contract's `ownerOf` function to get the art token owner
+    owner =  contract3.functions.ownerOf(token_id).call()
+
+    st.write(f"The token is registered to {owner}")
+
+    # Use the contract's `tokenURI` function to get the art token's URI
+    token_uri =  contract3.functions.tokenURI(token_id).call()
+
+    st.write(f"The tokenURI is {token_uri}")
+    st.image(token_uri)
