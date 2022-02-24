@@ -172,7 +172,7 @@ index_name = st.text_input("Enter the name of your portfolio")
 holder_name = st.text_input("Enter your full name")
 initial_appraisal_value = st.text_input("Enter the initial investment amount")
 #file = portfolios_dict[selected_portfolio]['Logo']
-#file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"])
+#file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"]) have to have the getvalue() function in pin_artwork
 file = st.camera_input("Picture recording")
 
 if st.button("Register Artwork"):
