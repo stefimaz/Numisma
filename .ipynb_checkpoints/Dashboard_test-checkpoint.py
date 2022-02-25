@@ -93,11 +93,11 @@ contract2 = load_contract2()
 def load_contract3():
 
     # Load the contract ABI
-    with open(Path('./VdexAbi.json')) as f:
+    with open(Path('./Noparam.json')) as f:
         contract_abi = json.load(f)
 
     # Set the contract address (this is the address of the deployed contract)
-    contract_address = os.getenv("SMART_CONTRACT_ADDRESSVdex")
+    contract_address = os.getenv("SMART_CONTRACT_ADDRESSNO")
 
     # Get the contract
     contract = w3.eth.contract(
@@ -130,7 +130,7 @@ amount = st.number_input("How many shares do you want to buy?", min_value=1, val
 if st.button("Buy Now"):
 
     # Use the contract to send a transaction to the safeMint function
-    tx_hash = contract3.functions.purchase(address, amount).transact({
+    tx_hash = contract3.functions.purchase().transact({
         "from": address, "gas": 1000000})
 
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
@@ -172,10 +172,10 @@ index_name = st.text_input("Enter the name of your portfolio")
 holder_name = st.text_input("Enter your full name")
 initial_appraisal_value = st.text_input("Enter the initial investment amount")
 #file = portfolios_dict[selected_portfolio]['Logo']
-#file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"]) have to have the getvalue() function in pin_artwork
+#file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"]) ## have to have the getvalue() function in pin_artwork
 file = st.camera_input("Picture recording")
 
-if st.button("Register Artwork"):
+if st.button("Register Index Portfolio"):
     # Use the `pin_artwork` helper function to pin the file to IPFS
     artwork_ipfs_hash =  pin_artwork(index_name, file)
     artwork_uri = f"ipfs://{artwork_ipfs_hash}"
