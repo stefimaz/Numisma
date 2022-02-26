@@ -26,8 +26,9 @@ def calculate_efficient_frontier(asset_prices):
     num_assets = len(asset_prices.columns)
 
     # Number of potential portfolios to calculate
-    num_portfolios = 10000
+    num_portfolios = 1000
     
+    # Generate random weights to create test portfolios 
     for portfolio in range(num_portfolios):
         weights = np.random.random(num_assets)
         weights = weights/np.sum(weights)
@@ -41,6 +42,7 @@ def calculate_efficient_frontier(asset_prices):
         ann_sd = sd*np.sqrt(250) 
         portfolio_volatility.append(ann_sd)
     
+    # Create a Dataframe to represent the different portfolios returns, volatility and weights
     portfolios_df = pd.DataFrame({'Returns' : portfolio_returns, 'Volatility' : portfolio_volatility, 'Weights': portfolio_weights})
     
     # Calculate and find the max Sharpe Ratio - The Optimal Portfolio
