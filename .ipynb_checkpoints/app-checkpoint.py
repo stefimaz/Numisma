@@ -23,7 +23,7 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 def load_contract():
 
     # Load the contract ABI
-    with open(Path('./contracts/compiled/metadex_abi.json')) as f:
+    with open(Path('./contracts/compiled/numisma_abi.json')) as f:
         contract_abi = json.load(f)
 
     # Set the contract address (this is the address of the deployed contract)
@@ -45,9 +45,9 @@ contract = load_contract()
 # Helper functions to pin files and json to Pinata
 ################################################################################
 
-def pin_image(investor_name, investment_file):
+def pin_investment(investor_name, investor_picture):
     # Pin the file to IPFS with Pinata
-    ipfs_file_hash = pin_file_to_ipfs(investment_file.getvalue())
+    ipfs_file_hash = pin_file_to_ipfs(investor_name)
 
     # Build a token metadata file for the image
     token_json = {
@@ -80,10 +80,12 @@ st.markdown("## Select your Investment")
 investor_name = st.text_input("Enter the your name")
 thematic_portfolio = st.text_input("Enter the thematic portfolio")
 initial_investment = st.text_input("Enter the amount to invest")
-file = st.file_uploader("Upload personalized picture or photo", type=["jpg", "jpeg", "png"])
+# picture = st.file_uploader("Upload personalized picture or photo", type=["jpg", "jpeg", "png"])
+picture = st.camera_input("Take a picture")
+
 if st.button("Register Investment"):
-    investment_ipfs_hash = pin_investment(investor_name, file)
-    investment_uri = f"ipfs://{artwork_ipfs_hash}"
+    investment_ipfs_hash = pin_investment(investor_name, picture)
+    investment_uri = f"ipfs://{investment_ipfs_hash}"
     tx_hash = contract.functions.registerInvestment(
         address,
         investor_name,
@@ -95,5 +97,5 @@ if st.button("Register Investment"):
     st.write("Transaction receipt mined:")
     st.write(dict(receipt))
     st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
-    st.markdown(f"[Artwork IPFS Gateway Link](https://ipfs.io/ipfs/{artwork_ipfs_hash})")
+    st.markdown(f"[IPFS Gateway Link](https://ipfs.io/ipfs/{investment_ipfs_hash})")
 st.markdown("---")
