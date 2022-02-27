@@ -13,6 +13,7 @@ import yfinance as yf
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from datetime import date
+import CryptoPerfSummary as coinAnalytic
 
 load_dotenv()
 alpha_api_key = os.getenv("ALPHA_API_KEY")
@@ -105,23 +106,25 @@ def get_market_datas_by_period(p_today):
     ytd = date(day_1.year, 1, 1)
     
     sql_query = f"""
-    SELECT * FROM (SELECT 'D0' as period,date from CRYPTO_PX_HISTORY order by date desc LIMIT 1)
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'D0' as period,date from CRYPTO_PX_HISTORY order by date desc LIMIT 1)
     UNION
-    SELECT * FROM (SELECT 'D7_W1' as period,date from CRYPTO_PX_HISTORY where '{week_1}' <= date order by date asc LIMIT 1)
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'D1' as period,date from CRYPTO_PX_HISTORY where '{day_1}' <= date order by date asc LIMIT 1)
     UNION
-    SELECT * FROM (SELECT 'M1' as period,date from CRYPTO_PX_HISTORY where '{month_1}' <= date order by date asc LIMIT 1)
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'W1' as period,date from CRYPTO_PX_HISTORY where '{week_1}' <= date order by date asc LIMIT 1)
     UNION
-    SELECT * FROM (SELECT 'M3' as period,date from CRYPTO_PX_HISTORY where '{month_3}' <= date order by date asc LIMIT 1)
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'M1' as period,date from CRYPTO_PX_HISTORY where '{month_1}' <= date order by date asc LIMIT 1)
     UNION
-    SELECT * FROM (SELECT 'M6' as period,date from CRYPTO_PX_HISTORY where '{month_6}' <= date order by date asc LIMIT 1)
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'M3' as period,date from CRYPTO_PX_HISTORY where '{month_3}' <= date order by date asc LIMIT 1)
     UNION
-    SELECT * FROM (SELECT 'Y1' as period,date from CRYPTO_PX_HISTORY where '{year_1}' <= date order by date asc LIMIT 1)
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'M6' as period,date from CRYPTO_PX_HISTORY where '{month_6}' <= date order by date asc LIMIT 1)
     UNION
-    SELECT * FROM (SELECT 'Y2' as period,date from CRYPTO_PX_HISTORY where '{year_2}' <= date order by date asc LIMIT 1)
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'Y1' as period,date from CRYPTO_PX_HISTORY where '{year_1}' <= date order by date asc LIMIT 1)
     UNION
-    SELECT * FROM (SELECT 'Y3' as period,date from CRYPTO_PX_HISTORY where '{year_3}' <= date order by date asc LIMIT 1)
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'Y2' as period,date from CRYPTO_PX_HISTORY where '{year_2}' <= date order by date asc LIMIT 1)
     UNION
-    SELECT * FROM (SELECT 'Y0_YTD' as period,date from CRYPTO_PX_HISTORY where '{ytd}' <= date order by date asc LIMIT 1)
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'Y3' as period,date from CRYPTO_PX_HISTORY where '{year_3}' <= date order by date asc LIMIT 1)
+    UNION
+    SELECT DISTINCT * FROM (SELECT DISTINCT 'Y0_YTD' as period,date from CRYPTO_PX_HISTORY where '{ytd}' <= date order by date asc LIMIT 1)
     """
     history_dates = pd.read_sql_query(sql_query, crypto_data_connection_string)
     history_dates = history_dates.sort_values(by=['date'], ascending=False)
@@ -226,7 +229,45 @@ def get_pxhist_by_symbol_list(symbol_list, column_name = None, start_date = None
     px_history_df = px_history_df.set_index('date')
     
     return px_history_df
-    
+
+
+def get_base_pxhorizon_matrix():
+    sql_query = """
+    SELECT max(date) date FROM CRYPTO_PX_HISTORY order by date desc"""
+    t_date_str= pd.read_sql_query(sql_query, crypto_data_connection_string)
+    t_date_str.iat[0,0]
+    #print(type(t_date))
+    t_date = datetime.strptime(t_date_str.iat[0,0], '%Y-%m-%d').date()
+    date_list = get_market_datas_by_period(t_date)
+    x_start_date = datetime(2021, 1, 1)
+    x_end_date = datetime(2021, 6, 1)
+    y_end_date = t_date 
+    daily_xy_horizon_return_matrix = coinAnalytic.get_xy_daily_return_matrix(t_date, x_start_date, x_end_date, y_end_date)
+    return daily_xy_horizon_return_matrix
+
+
+def get_base_pxchanges_matrix():
+    daily_xy_horizon_return_matrix = get_base_pxhorizon_matrix()
+    return_matrix = pd.DataFrame()
+    return_matrix['A/O Date'] = daily_xy_horizon_return_matrix['Y_End Date']
+    return_matrix['Name'] = daily_xy_horizon_return_matrix.index
+    return_matrix['Cur_PX'] = daily_xy_horizon_return_matrix['D0']
+    return_matrix['1_Day'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['D1'])/daily_xy_horizon_return_matrix['D1']
+    return_matrix['1_Week'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['W1'])/daily_xy_horizon_return_matrix['W1']
+    return_matrix['1_Month'] =100 *  (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['M1'])/daily_xy_horizon_return_matrix['M1']
+    return_matrix['3_Months'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['M3'])/daily_xy_horizon_return_matrix['M3']
+    return_matrix['YTD'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y0_YTD'])/daily_xy_horizon_return_matrix['Y0_YTD']
+    return_matrix['1_Year'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y1'])/daily_xy_horizon_return_matrix['Y1']
+    return_matrix['2_Years'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y2'])/daily_xy_horizon_return_matrix['Y2']
+    return_matrix['3_Years'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y3'])/daily_xy_horizon_return_matrix['Y3']
+    return_matrix['Start_Date'] = daily_xy_horizon_return_matrix['Start Date']
+    return_matrix['Since_Intercept'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Start Cost'])/daily_xy_horizon_return_matrix['Start Cost']
+    return_matrix['Start_PX'] = daily_xy_horizon_return_matrix['Start Cost']
+    return_matrix['Return'] = 100 * daily_xy_horizon_return_matrix['XY_Return']
+    return_matrix = return_matrix.fillna('--')
+    return_matrix = return_matrix.round({'1_Day': 2})
+    return return_matrix
+
 def get_pxhist_by_etfname(etf_name = None, column_name = None, start_date = None, end_date = None):
     symbol_list = get_symbollist_by_index(etf_name)
     px_history_df = get_pxhist_by_symbol_list(symbol_list, column_name, start_date, end_date)
