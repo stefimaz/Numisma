@@ -130,7 +130,7 @@ amount = st.number_input("How many shares do you want to buy?", min_value=1, val
 if st.button("Buy Now"):
 
     # Use the contract to send a transaction to the safeMint function
-    tx_hash = contract3.functions.purchase().transact({
+    tx_hash = contract1.functions.purchase().transact({
         "from": address, "gas": 1000000})
 
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)

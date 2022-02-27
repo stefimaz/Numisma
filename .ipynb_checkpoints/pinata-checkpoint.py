@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from dotenv import load_dotenv
-load_dotenv("SAMPLE.env")
+load_dotenv("api.env")
 
 json_headers = {
     "Content-Type": "application/json",

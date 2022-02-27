@@ -36,6 +36,10 @@ st.write(portfolios_dict[selected_portfolio]['Creation'])
 
 st.markdown("---")
 
+
+st.sidebar.date_input("Book a time")
+st.sidebar.time_input("Available times")
+
 load_dotenv("api.env")
 
 # Define and connect a new Web3 provider
@@ -122,9 +126,9 @@ contract3 = load_contract3()
 ################################################################################
 st.title("Buy This Portfolio")
 
-accounts = w3.eth.accounts
-
+accounts = w3.eth.accounts 
 # Use a streamlit component to get the address of the artwork owner from the user
+
 address = st.selectbox("Select your wallet", accounts)
 amount = st.number_input("How many shares do you want to buy?", min_value=1, value=1, step=1)
 # Use a streamlit component to get the contract URI
@@ -136,7 +140,7 @@ if st.button("Buy Now"):
     tx_hash = contract3.functions.safeMint(address).transact({
         "from": address, "gas": 1000000})
 
-    receipt = w3.eth.waitForTransactionReceipt(tx_hash)
+    receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
     st.write("Transaction receipt mined:")
     st.success(dict(receipt))
 st.markdown("---")
@@ -196,57 +200,65 @@ st.markdown("---")
 
 #############################################################
 
+import streamlit.components.v1 as components
+
+#components.iframe(
+#    f"https://calendar.google.com/calendar/embed?src={input_calendar_id_number}&ctz=Europe%2FMadrid",
+#    width=1200, height=800, scrolling=True)
+
+# accounts = w3.ethereum.request('eth_requestAccounts')
+
+# html_string = ''' <button class="enableEthereumButton">Enable Ethereum</button>
+#                   <h2>Account: <span class="showAccount"></span></h2>'''
+
+#st.markdown(html_string, unsafe_allow_html=True)
+#st.markdown(html_string2, unsafe_allow_html=True)
+
+# if st.button("Connect Metamask"):
+#    w3.eth.accounts[0]
+    
+    
+  
+
+#st.markdown(html_string, unsafe_allow_html=True)
+
+
+
 # import useState, useEffect from react
 # import Calendar from './components/Calendar';
-import detectEthereumProvider from '@metamask/detect-provider';
+#
+html_string = '''
+<script language="javascript">
+<script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+<script type="text/javascript">
+  const provider = await detectEthereumProvider()
 
-function App() {
-  const [account, setAccount] = useState(false);
-
-  useEffect(() => {
-    isConnected();
-  }, []);
-
-  const isConnected = async () => {
-    const provider = await detectEthereumProvider();
-    const accounts = await provider.request({ method: "eth_accounts" });
-
-    if (accounts.length > 0) {
-      setAccount(accounts[0]);
-    } else {
-      console.log("No authorized account found")
-    }
+  if (provider) {
+    // handle provider
+  } else {
+    // handle no provider
   }
+</script>
 
-  const connect = async () => {
-    try {
-      const provider = await detectEthereumProvider();
+  '''
 
-      // returns an array of accounts
-      const accounts = await provider.request({ method: "eth_requestAccounts" });
+components.html(html_string)
 
-      // check if array at least one element. if so, set account to the first one.
-      if (accounts.length > 0) {
-        console.log('account found', accounts);
-        setAccount(accounts[0]);
-      } else {
-        alert('No account found');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+def connect():    
+      if provider == detectEthereumProvider():
+            returns(accounts)
+def accounts():
+    
+    provider.request({ method: "eth_requestAccounts" })
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>calend3</h1>
-        <div id="slogan">web3 appointment scheduling</div>
-        {!account && <button onClick={connect}>connect wallet</button>}
-        {account && <Calendar />}
-      </header>
-    </div>
-  );
-}
-
-export default App;
+    if array != 0:
+            account = accounts[0]
+                    
+    elif accounts.length > 0:
+        
+        console.log('account found', accounts)
+        setAccount(accounts[0])
+        
+    else:
+        alert('No account found')
+      
