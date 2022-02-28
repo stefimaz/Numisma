@@ -18,7 +18,7 @@ Numisma is a bll bla bla.....
 
 st.sidebar.header('Portfolio selection')
 
-portfolios_dict = {'Metadex Portfolio': {'Logo':'Images/Metadex_pie.jpg', 'Description':'The Metaverse Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.'}, 'Ventidex Portfolio':{'Logo':'Images/Ventidex_pie.jpg', 'Description':'', 'Creation':''}, 'Farmdex Portfolio':{'Logo':'Images/Farmdex_pie.jpg', 'Description':'', 'Creation':''}}
+portfolios_dict = {'Metadex Portfolio': {'Logo':'Images/Metadex_pie.jpg', 'Description':'The Metaverse Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.'}, 'Ventidex Portfolio':{'Logo':'Images/Ventidex_pie.jpg', 'Description':'', 'Creation':''}, 'Farmdex Portfolio':{'Logo':'Images/Farmdex_pie.jpg', 'Description':'', 'Creation':''}}  
 
 sorted_portfolio = ['Metadex Portfolio', 'Ventidex Portfolio', 'Farmdex Portfolio']
 
@@ -130,7 +130,7 @@ amount = st.number_input("How many shares do you want to buy?", min_value=1, val
 if st.button("Buy Now"):
 
     # Use the contract to send a transaction to the safeMint function
-    tx_hash = contract1.functions.purchase().transact({
+    tx_hash =  contract3.functions.purchase().transact({
         "from": address, "gas": 1000000})
 
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
