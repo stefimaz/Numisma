@@ -23,9 +23,10 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 def load_contract():
 
     # Load the contract ABI
-    with open(Path('./contracts/compiled/numisma_abi.json')) as f:
+    with open(Path('./contracts/Compiled/numisma_abi.json')) as f:
         contract_abi = json.load(f)
-
+        
+        
     # Set the contract address (this is the address of the deployed contract)
     contract_address = os.getenv("SMART_CONTRACT_ADDRESS")
 
@@ -67,20 +68,53 @@ def pin_appraisal_report(report_content):
     return report_ipfs_hash
 
 st.title("Numisma Investment System")
-st.write("Choose an account to get started")
-accounts = w3.eth.accounts
-address = st.selectbox("Select Account", options=accounts)
-st.markdown("---")
+st.write("Choose one of the following investment options to learn more")
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.header("FarmDex")
+    st.image('./images/farmyield.jpg')
+    with st.expander("See explanation"):
+     st.write("""
+         The chart above shows some numbers I picked for you.
+         I rolled actual dice for these, so they're *guaranteed* to
+         be random.
+     """)
+with col2:
+    st.header("MetaDex")
+    st.image('./images/metaverse.jpg')
+    with st.expander("See explanation"):
+     st.write("""
+         The chart above shows some numbers I picked for you.
+         I rolled actual dice for these, so they're *guaranteed* to
+         be random.
+     """)
+with col3:
+    st.header("VentiDex")
+    st.image('./images/venti.jpg')
+    with st.expander("See explanation"):
+     st.write("""
+         The chart above shows some numbers I picked for you.
+         I rolled actual dice for these, so they're *guaranteed* to
+         be random.
+     """)
 
+
+    
 ################################################################################
 # Select your Investment
 ################################################################################
+st.markdown("## Let's get started!")
+st.write("Choose an account to get started")
+accounts = w3.eth.accounts
+address = st.selectbox("Select Account", options=accounts)
+st.markdown("---")    
 
-st.markdown("## Select your Investment")
 investor_name = st.text_input("Enter the your name")
-thematic_portfolio = st.text_input("Enter the thematic portfolio")
-initial_investment = st.text_input("Enter the amount to invest")
-# picture = st.file_uploader("Upload personalized picture or photo", type=["jpg", "jpeg", "png"])
+thematic_portfolio = st.selectbox(
+     'Which thematic portfolio would you want more information on?',
+     ('FarmDex','MetaDex', 'VentiDex')),
+initial_investment = st.text_input("What is your initial investment?")
+#picture = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"])
 picture = st.camera_input("Take a picture")
 
 if st.button("Register Investment"):
@@ -89,7 +123,7 @@ if st.button("Register Investment"):
     tx_hash = contract.functions.registerInvestment(
         address,
         investor_name,
-        thematic_portfolio,
+        str(thematic_portfolio),
         int(initial_investment),
         investment_uri
     ).transact({'from': address, 'gas': 1000000})
@@ -99,3 +133,6 @@ if st.button("Register Investment"):
     st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
     st.markdown(f"[IPFS Gateway Link](https://ipfs.io/ipfs/{investment_ipfs_hash})")
 st.markdown("---")
+st.caption('Balloons. Hundreds of them...')
+
+
