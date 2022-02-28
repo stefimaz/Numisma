@@ -1,1 +1,32 @@
-name,symbol,rank,ETFBitcoin,BTC,1,VentidexEthereum,ETH,2,VentidexBinance Coin,BNB,3,VentidexUSD Coin,USDC,4,VentidexXRP,XRP,5,VentidexCardano,ADA,6,VentidexSolana,SOL,7,VentidexTerra,LUNA,8,VentidexAvalanche,AVAX,9,VentidexPolkadot,DOT,10,VentidexPancakeSwap,CAKE,1,FarmdexAave,AAVE,2,FarmdexCurve DAO Token,CRV,3,FarmdexCompound,COMP,4,FarmdexRally,RLY,5,FarmdexSynthetix Network Token,SNX,6,FarmdexSushiSwap,SUSHI,7,FarmdexRari Governance Token,RGT,8,FarmdexJOE,JOE,9,FarmdexReef,REEF,10,FarmdexDecentraland,MANA,1,MetadexThe Sandbox,SAND,2,MetadexAxie Infinity,AXS,3,MetadexTheta Network,THETA,4,MetadexEnjin Coin,ENJ,5,MetadexWEMIX,WEMIX,6,MetadexWAX,WAXP,7,MetadexRender Token,RNDR,8,MetadexSushiSwap,SUSHI,9,MetadexOntology,ONT,10,MetadexUltra,UOS,11,MetadexIlluvium,ILV,12,MetadexRadio Caca,RACA,13,MetadexVulcan Forged PYR,PYR,14,MetadexPlayDapp,PLA,15,MetadexCEEK VR,CEEK,16,MetadexChromia,CHR,17,MetadexYield Guild Games,YGG,18,MetadexMOBOX,MBOX,19,MetadexMyNeighborAlice,ALICE,20,Metadex
+name,rank,symbol,weight,ETF
+Bitcoin,0,BTC,0.215064,Ventidex
+Ethereum,1,ETH,0.045059,Ventidex
+Binance Coin,2,BNB,0.263171,Ventidex
+USD Coin,3,USDC,0.054484,Ventidex
+XRP,4,XRP,0.002111,Ventidex
+Cardano,5,ADA,0.147052,Ventidex
+Solana,6,SOL,0.183242,Ventidex
+Terra,7,LUNA,0.012564,Ventidex
+Avalanche,8,AVAX,0.077253,Ventidex
+PancakeSwap,0,CAKE,0.1422,Farmdex
+Aave,1,AAVE,0.029716,Farmdex
+Curve DAO Token,2,CRV,0.189526,Farmdex
+Rally,3,RLY,0.004941,Farmdex
+Synthetix Network Token,4,SNX,0.056224,Farmdex
+SushiSwap,5,SUSHI,0.101659,Farmdex
+Rari Governance Token,6,RGT,0.284625,Farmdex
+Reef,7,REEF,0.19111,Farmdex
+Decentraland,0,MANA,0.004168,Metadex
+The Sandbox,1,SAND,0.053283,Metadex
+Axie Infinity,2,AXS,0.109419,Metadex
+Theta Network,3,THETA,0.009639,Metadex
+Enjin Coin,4,ENJ,0.018749,Metadex
+WEMIX,5,WEMIX,0.102786,Metadex
+WAX,6,WAXP,0.14944,Metadex
+Render Token,7,RNDR,0.020939,Metadex
+SushiSwap,8,SUSHI,0.1685,Metadex
+Ontology,9,ONT,0.046232,Metadex
+Ultra,10,UOS,0.008536,Metadex
+PlayDapp,11,PLA,0.203614,Metadex
+CEEK VR,12,CEEK,0.043591,Metadex
+Chromia,13,CHR,0.061105,Metadex
