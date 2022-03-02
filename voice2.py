@@ -119,6 +119,8 @@ popular_twitter_usernames = ("metaversenoir","cz_binance", "mmcrypto", "aantonop
 
 username_choice = st.sidebar.selectbox("SELECT POPULAR TWITTER USERNAMES", (popular_twitter_usernames))
 
+
+
 metaversenoir = '1450997150477815808'
 cz_binance = '902926941413453824'
 mmcrypto = '904700529988820992'
@@ -126,17 +128,21 @@ aantonop = '1469101279'
 
 if username_choice == 'metaversenoir':
     id = metaversenoir
+    summary = 'The Genius Behind the Best Metaverse Twitter Thread'
 if username_choice == 'cz_binance':
     id = cz_binance
+    summary = '@cz_binance is the founder and CEO of Binance'
 if username_choice == 'mmcrypto':
     id = mmcrypto
+    summary = '@MMCrypto is one of the elite group of traders in the world'
 if username_choice == 'aantonop':
-    id = aantonop       
-    
-# tweets = client.get_users_tweets(id=id, tweet_fields=['context_annotations','created_at','geo'])
+    id = aantonop
+    summary = '@aantonop is one of the foremost trusted educators of Bitcoin in the world'
+
+   # tweets = client.get_users_tweets(id=id, tweet_fields=['context_annotations','created_at','geo'])
 
 # for tweet in tweets.data:
-#     st.sidebar.write(tweet)
+st.sidebar.write(summary)
 
     
 st.title(f'@{username_choice}')    
