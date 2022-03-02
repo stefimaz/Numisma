@@ -179,7 +179,7 @@ def get_crypto_px_strat(t_date):
 
     # 3) RS Rating Relavtive Strong Rating 
     # BTC Benchmark
-    display(pd.DataFrame(perf_screen_df.loc['BTC']).transpose())
+   # display(pd.DataFrame(perf_screen_df.loc['BTC']).transpose())
     rs_rating_df = return_multiple[['H1_Multiple','H2_Multiple','1Y_Multiple']].copy()
     rs_rating_df.rename(columns={'H1_Multiple':'H1_Rank','H2_Multiple':'H2_Rank','1Y_Multiple':'Y1_Rank'}, inplace = True)
     rs_rating_df = round((rs_rating_df.rank(pct=True) * 100), 2)
