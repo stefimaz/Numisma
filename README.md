@@ -4,7 +4,7 @@
 <!-- header is made with: https://github.com/kyechan99/capsule-render -->
 
 [Briggs Lalor](https://www.linkedin.com/in/briggsclalor/) [<img src="https://cdn2.auth0.com/docs/media/connections/linkedin.png" alt="LinkedIn -  Briggs Lalor" width=15/>](https://www.linkedin.com/in/briggsclalor/)
-[Ken Lee](https://www.linkedin.com/in/ken-Lee-495b891a4/) [<img src="https://cdn2.auth0.com/docs/media/connections/linkedin.png" alt="LinkedIn -  Ken Lee" width=15/>](https://www.linkedin.com/in/ken-Lee-495b891a4/)
+[Ken Lee](https://www.linkedin.com/in/kenkwlee) [<img src="https://cdn2.auth0.com/docs/media/connections/linkedin.png" alt="LinkedIn -  Ken Lee" width=15/>](https://www.linkedin.com/in/kenkwlee)
 [Stephane Maysn](https://www.linkedin.com/in/stephane-masyn-35b16817a/) [<img src="https://cdn2.auth0.com/docs/media/connections/linkedin.png" alt="LinkedIn -  Staphane Masyn" width=15/>](https://www.linkedin.com/in/stephane-masyn-35b16817a/)
 [John Sung](https://linkedin.com/in/john-sung-3675569) [<img src="https://cdn2.auth0.com/docs/media/connections/linkedin.png" alt="LinkedIn -  John Sung" width=15/>](https://linkedin.com/in/john-sung-3675569/)
                                                              
@@ -54,7 +54,7 @@ In our MVP, we have created a user friendly dashboard using Steamlit to help use
 Installation instructions
 $ pip install yfinance --upgrade --no-cache-dir
 $ pip install streamlit-aggrid
-
+$ Pip install tweepy
 This project leverages python 3.7 Streamlit and scikit-learn.
 
 A [conda](https://docs.conda.io/en/latest/) environment with liabraries listed below and [Jupyter Notebook/Lab](https://jupyter.org/) are required to run the code.
