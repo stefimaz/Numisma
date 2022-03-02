@@ -51,11 +51,11 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 def load_contract1():
 
     # Load the contract ABI
-    with open(Path('./Ventidex2_abi.json')) as f:
+    with open(Path('./VentidexToken_abi.json')) as f:
         contract_abi = json.load(f)
 
     # Set the contract address (this is the address of the deployed contract)
-    contract_address = os.getenv("SMART_CONTRACT_ADDRESS2")
+    contract_address = os.getenv("SMART_CONTRACT_VENTIDEXTOKEN")
 
     # Get the contract
     contract = w3.eth.contract(
