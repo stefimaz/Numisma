@@ -241,6 +241,7 @@ if st.button("Buy Now"):
 
     receipt = w3.eth.wait_for_transaction_receipt(transaction_hash)
     st.write("Transaction receipt mined:")
+    st.write("Congratulation on your purchase, Here is your Blockchain receipt")
     st.success(dict(receipt))
 st.markdown("---")
 

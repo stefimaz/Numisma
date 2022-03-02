@@ -9,7 +9,7 @@ from PIL import Image
 from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
 
 st.set_page_config(page_title='Numisma: Diversify your crypto holdings', layout='wide')
-st.image("./Images/Cryptos.jpeg")
+st.image("./Images/Cryptos.PNG")
 st.title("Numisma. Crypto Index Portfolio Management")
 
 st.markdown("""
@@ -135,7 +135,7 @@ if st.button("Buy Now"):
 
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
     st.write("Transaction receipt mined:")
-    st.write("Congratulation on your purchase, Hereis your Blockchain receipt")
+    st.write("Congratulation on your purchase, Here is your Blockchain receipt")
     st.success(dict(receipt))
 st.markdown("---")
 
