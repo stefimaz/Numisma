@@ -9,7 +9,7 @@ from PIL import Image
 from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
 
 st.set_page_config(page_title='Numisma: Diversify your crypto holdings', layout='wide')
-st.image("./Images/Cryptos.PNG")
+st.image("./Images/Cryptos.jpeg")
 st.title("Numisma. Crypto Index Portfolio Management")
 
 st.markdown("""
@@ -18,7 +18,7 @@ Numisma is a bll bla bla.....
 
 st.sidebar.header('Portfolio selection')
 
-portfolios_dict = {'Metadex Portfolio': {'Logo':'Images/Metadex_pie.jpg', 'Description':'The Metaverse Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.'}, 'Ventidex Portfolio':{'Logo':'Images/Ventidex_pie.jpg', 'Description':'', 'Creation':''}, 'Farmdex Portfolio':{'Logo':'Images/Farmdex_pie.jpg', 'Description':'', 'Creation':''}}  
+portfolios_dict = {'Metadex Portfolio': {'Logo':'Images/Metadex_pie.jpg', 'Description':'The Metaverse Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.'}, 'Ventidex Portfolio':{'Logo':'Images/Ventidex_pie.jpg', 'Description':'', 'Creation':''}, 'Farmdex Portfolio':{'Logo':'Images/Farmdex_pie.jpg', 'Description':'', 'Creation':''}}
 
 sorted_portfolio = ['Metadex Portfolio', 'Ventidex Portfolio', 'Farmdex Portfolio']
 
@@ -51,11 +51,11 @@ w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 def load_contract1():
 
     # Load the contract ABI
-    with open(Path('./VentidexToken_abi.json')) as f:
+    with open(Path('./Ventidex2_abi.json')) as f:
         contract_abi = json.load(f)
 
     # Set the contract address (this is the address of the deployed contract)
-    contract_address = os.getenv("SMART_CONTRACT_VENTIDEXTOKEN")
+    contract_address = os.getenv("SMART_CONTRACT_ADDRESS2")
 
     # Get the contract
     contract = w3.eth.contract(
@@ -93,11 +93,11 @@ contract2 = load_contract2()
 def load_contract3():
 
     # Load the contract ABI
-    with open(Path('./Noparam.json')) as f:
+    with open(Path('./VdexAbi.json')) as f:
         contract_abi = json.load(f)
 
     # Set the contract address (this is the address of the deployed contract)
-    contract_address = os.getenv("SMART_CONTRACT_ADDRESSNO")
+    contract_address = os.getenv("SMART_CONTRACT_ADDRESSVdex")
 
     # Get the contract
     contract = w3.eth.contract(
@@ -130,12 +130,12 @@ amount = st.number_input("How many shares do you want to buy?", min_value=1, val
 if st.button("Buy Now"):
 
     # Use the contract to send a transaction to the safeMint function
-    tx_hash =  contract3.functions.purchase().transact({
+    tx_hash = contract3.functions.purchase(address, amount).transact({
         "from": address, "gas": 1000000})
 
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
     st.write("Transaction receipt mined:")
-    st.write("Congratulation on your purchase, Here is your Blockchain receipt")
+    st.write("Congratulation on your purchase, Hereis your Blockchain receipt")
     st.success(dict(receipt))
 st.markdown("---")
 
@@ -172,10 +172,10 @@ index_name = st.text_input("Enter the name of your portfolio")
 holder_name = st.text_input("Enter your full name")
 initial_appraisal_value = st.text_input("Enter the initial investment amount")
 #file = portfolios_dict[selected_portfolio]['Logo']
-#file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"]) ## have to have the getvalue() function in pin_artwork
+#file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"]) have to have the getvalue() function in pin_artwork
 file = st.camera_input("Picture recording")
 
-if st.button("Register Index Portfolio"):
+if st.button("Register Artwork"):
     # Use the `pin_artwork` helper function to pin the file to IPFS
     artwork_ipfs_hash =  pin_artwork(index_name, file)
     artwork_uri = f"ipfs://{artwork_ipfs_hash}"
