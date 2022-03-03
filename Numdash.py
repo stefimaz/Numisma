@@ -136,11 +136,11 @@ accounts = w3.eth.accounts
 def load_contract():
 
     # Load the contract ABI
-    with open(Path('./VentidexToken_abi.json')) as f:
+    with open(Path('./VentidexToken_plain_abi.json')) as f:
         contract_abi = json.load(f)
 
     # Set the contract address (this is the address of the deployed contract)
-    contract_address = os.getenv("SMART_CONTRACT_ADDRESS_VENTIDEXTOKEN")
+    contract_address = os.getenv("SMART_CONTRACT_ADDRESS_VENTIDEXTOKEN_Plain")
 
     # Get the contract
     contract = w3.eth.contract(
@@ -187,8 +187,8 @@ share_detail_m = "BTC, ETH"
 
 
 portfolios_dict = {'Metadex Portfolio': {'Contract':contract,'Price':0.30001,'Logo':'Images/Metadex_pie.jpg', 'Description':'Metaverse is the technology behind a virtual universe where people can shop, game, buy and trade currencies and objects and more. Think of it as a combination of augmented reality, virtual reality, social media, gaming and cryptocurrencies. This Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.','Pie':'Images/metaPIE.PNG','ShortName':'Metadex'}, 
-                   'Ventidex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Ventidex_pie.jpg', 'Description':'Market cap allows you to compare the total value of one cryptocurrency with another so you can make more informed investment decisions. Cryptocurrencies are classified by their market cap into three categories: Large-cap cryptocurrencies, including Bitcoin and Ethereum, have a market cap of more than $10 billion.', 'Creation':'Why and how we came up with this index','ShortName':'Ventidex'}, 
-                   'Farmdex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Farmdex_pie.jpg', 'Description':'Yield farming is an investment strategy in decentralised finance or DeFi. It involves lending or staking your cryptocurrency coins or tokens to get rewards in the form of transaction fees or interest.', 'Creation':'Why and how we came up with this index','Pie':'Images/farmPIE.PNG','ShortName':'Farmdex'}, }
+                   'Ventidex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Ventidex_pie.jpg', 'Description':'Market cap allows you to compare the total value of one cryptocurrency with another so you can make more informed investment decisions. Cryptocurrencies are classified by their market cap into three categories: Large-cap cryptocurrencies, including Bitcoin and Ethereum, have a market cap of more than $10 billion.', 'Creation':'Why and how we came up with this index','Pie':'Images/coinbasePIE.PNG','ShortName':'Ventidex'}, 
+                   'Farmdex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Farmdex_pie.jpg', 'Description':'Yield farming is an investment strategy in decentralised finance or DeFi. It involves lending or staking your cryptocurrency coins or tokens to get rewards in the form of transaction fees or interest.', 'Creation':'Why and how we came up with this index','Pie':'Images/farmPIE.PNG','ShortName':'Farmdex'}}
 
 #################################################################################
 # Sidebar setup
@@ -210,13 +210,6 @@ st.header(f"{selected_portfolio}' Creation strategy")
 st.write(portfolios_dict[selected_portfolio]['Creation'])
 
 st.markdown("---")
-
-
-################################################################################
-# Buying the portfolio
-################################################################################
-st.title(f"Buy The {selected_portfolio}")
-
 
 ################################################################################
 # <--portfolio summary--> Start here
@@ -356,9 +349,14 @@ with container1:
 
 ### <--portfolio summary--> end here ########
 
+###############################################################################
+# Buying the portfolio
+################################################################################
+st.title(f"Buy The {selected_portfolio}")
 
+st.image(portfolios_dict[selected_portfolio]['Pie'])
 
-receiver = "0x33dEA8432248DD86680428696975755715a85fFC"
+# receiver = "0x33dEA8432248DD86680428696975755715a85fFC"
 # Use a streamlit component to get the address of the user
 address = st.selectbox("Select your wallet", accounts)
 
@@ -382,17 +380,13 @@ if st.button("Buy Now"):
     ## need a other function to take in count the amount od eth to be sent!!
     #########################################################################
     
-    transaction_hash = send_transaction(w3, account, receiver, cost)
-
+    # transaction_hash = send_transaction(w3, account, receiver, cost)
     
     ##########################################################################
-    #tx_hash = contract.functions.mint(address, amount).transact({
-    #    "from": address, "gas": 1000000})
+    tx_hash = contract.functions.mint().transact({
+        "from": address, "gas": 1000000})
     
-    
-    
-
-    receipt = w3.eth.wait_for_transaction_receipt(transaction_hash)
+    receipt = w3.eth.waitForTransactionReceipt(tx_hash)
     st.write("Transaction receipt mined:")
     st.write("Congratulation on your purchase, Here is your Blockchain receipt")
     st.success(dict(receipt))
@@ -431,7 +425,7 @@ def pin_appraisal_report(report_content):
 st.markdown("## Register Your Portfolio")
 index_name = st.text_input("Enter the name of your portfolio")
 holder_name = st.text_input("Enter your full name")
-initial_index_value = cost * 2800
+initial_index_value = cost * 2850
 
 #file = portfolios_dict[selected_portfolio]['Logo']
 #file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"]) ## have to have the getvalue() function in pin_artwork
@@ -470,7 +464,8 @@ st.write(f"This address owns {tokens} tokens")
 if st.button("Display"):
 
     # Use the contract's `ownerOf` function to get the art token owner
-    owner =  contract.functions.ownerOf(tokens).call()
+    owner =  holder_name
+    #contract.functions.ownerOf(tokens).call()
 
     st.write(f"The token is registered to {owner}")
     
@@ -480,10 +475,10 @@ if st.button("Display"):
 
     # Use the contract's `tokenURI` function to get the art token's URI
     
-    token_uri =  contract.functions.tokenURI(tokens).call()
+    #token_uri =  contract.functions.tokenURI(tokens).call()
 
-    st.write(f"The tokenURI is {token_uri}")
-   # st.image(token_uri)
+   # st.write(f"The tokenURI is {token_uri}")
+    st.image(portfolios_dict[selected_portfolio]['Pie'])
 
 ################################################################################
 # Identify top twitter usernames on crytocurrency
@@ -504,18 +499,20 @@ aantonop = '1469101279'
 
 if username_choice == 'metaversenoir':
     id = metaversenoir
+    summary = 'The Genius Behind the Best Metaverse Twitter Thread'
 if username_choice == 'cz_binance':
     id = cz_binance
+    summary = '@cz_binance is the founder and CEO of Binance'
 if username_choice == 'mmcrypto':
     id = mmcrypto
+    summary = '@MMCrypto is one of the elite group of traders in the world'
 if username_choice == 'aantonop':
-    id = aantonop       
-    
+    id = aantonop
+    summary = '@aantonop is one of the foremost trusted educators of Bitcoin in the world' 
 # tweets = client.get_users_tweets(id=id, tweet_fields=['context_annotations','created_at','geo'])
 
 # for tweet in tweets.data:
-#     st.sidebar.write(tweet)
-
+st.sidebar.write(summary)
     
 st.title(f'@{username_choice}')    
 col1, col2, col3 = st.columns(3)
