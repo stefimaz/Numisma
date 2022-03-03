@@ -12,6 +12,7 @@ from PIL import Image
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder, JsCode
 from datetime import datetime
 from datetime import date
+import pandas as pd
 #Library - Project3 
 import CryptoDownloadData as coinData
 import CryptoPerfSummary as coinAnalytic
@@ -200,13 +201,13 @@ sorted_portfolio = ['Metadex Portfolio', 'Ventidex Portfolio', 'Farmdex Portfoli
 selected_portfolio = st.sidebar.selectbox("Available Portfolio", sorted_portfolio)
 
 st.subheader('Current Portfolio Selection: ' + selected_portfolio)
-st.image(portfolios_dict[selected_portfolio]['Logo'], width = 500)
+# st.image(portfolios_dict[selected_portfolio]['Logo'], width = 500)
 
 st.subheader(" ")
-st.header(f"{selected_portfolio}' Porfolio Description")
+st.header(f"{selected_portfolio} Porfolio Description")
 st.write(portfolios_dict[selected_portfolio]['Description'])
 
-st.header(f"{selected_portfolio}' Creation strategy")
+st.header(f"{selected_portfolio} Creation strategy")
 st.write(portfolios_dict[selected_portfolio]['Creation'])
 
 st.markdown("---")
@@ -215,7 +216,7 @@ st.markdown("---")
 # <--portfolio summary--> Start here
 ################################################################################
 
-etf_name = portfolios_dict[selected_portfolio]['shortName']
+etf_name = portfolios_dict[selected_portfolio]['ShortName']
 run_date = date(2022, 3, 3) #date.today() # TODO: date can be changed from UI 
 
 ##################### load Data ##################
