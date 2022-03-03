@@ -10,54 +10,17 @@ from PIL import Image
 #from st_aggrid import AgGrid
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder, JsCode
 from datetime import datetime
-from datetime import date
 #Library - Project3 
 import CryptoDownloadData as coinData
 import CryptoPerfSummary as coinAnalytic
 import EfficientFrontierCalculator as ef
-import get_index_data as gp
 
-import cufflinks as cf
 import sqlalchemy as sql
 from pathlib import Path
 from st_aggrid.shared import JsCode
 
+# ... 
 
-##################### Run Inputs ##################
-#ETF LIST:
-#'Ventidex'
-#'Farmdex'
-#'Metadex'
-
-run_date = date(2022, 3, 2) #date.today()
-etf_name = 'Metadex'
-
-
-##################### load Data ##################
-curr_weight = coinData.get_etf_weight_by_date(etf_name, run_date)
-orig_date = date(2021, 7, 15) # Intercept date -- do not change
-orig_weight = coinData.get_etf_weight_by_date(etf_name, orig_date)
-st.set_page_config(page_title="Numisma", layout="wide") 
-st.title(etf_name + ' Portfolio')
-invest_by_weight = gp.get_coin_values_by_weight_df(1000,curr_weight)
-px_strat = coinData.get_base_pxchanges_matrix(run_date)
-selected_px_strat = pd.merge(px_strat, orig_weight, left_on='Name',right_on='symbol')
-
-container0 = st.container()
-col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12  = st.columns(12)
-# TODO - NEEED TO ADD ACUTAL % DATA
-with container0:
-    with col1:
-        st.metric(run_date.strftime('%m/%d/%Y'), "$97", "-4%")
-    with col2:
-        st.metric("1W", "", "3%")
-    with col3:
-        st.metric("1M", "", "5%")
-    with col4:
-        st.metric("3M", "", "-7%")
-    with col12:
-        st.metric(orig_date.strftime('%m/%d/%Y'), "$100", "-7%")        
-# Style Code
 cellsytle_jscode = JsCode(
     """
 function(params) {
@@ -81,46 +44,61 @@ function(params) {
 """
 )
 
+celltwodecimal = JsCode(
+    """
+function(params) { return {((params).toFixed(2))}}; 
+"""
+
+)
+
+st.set_page_config(page_title="Numisma", layout="wide") 
+st.title('Numisma: Diversify your crypto holdings')
+px_strat = coinData.get_base_pxchanges_matrix()
+gb = GridOptionsBuilder.from_dataframe(px_strat)
+gb.configure_pagination()
+gb.configure_side_bar()
+#gb.configure_column("1 Day", cellStyle=cellsytle_jscode, type=["numericColumn","numberColumnFilter"], valueFormatter=(px_strat. .percentage_column_b*100).toFixed(1)+'%'))
+#gb.configure_column("Cur_PX", header_name='Cur Px', valueFormatter="(x).toFixed(2)", type=["numericColumn","numberColumnFilter"])
+#gb.configure_column("1_Day", cellStyle=cellsytle_jscode, header_name='1 Day', valueFormatter="(x).toFixed(2)", type=["numericColumn","numberColumnFilter"])
+
+#gb.configure_column("1_Day", cellStyle=cellsytle_jscode, #header_name='1 Day', valueFormatter=celltwodecimal, type=#["numericColumn","numberColumnFilter"])
+
+
+
+
+
+#, valueFormatter="(px_strat.1_Day*100).toFixed(1)+'%'), aggFunc='sum')
+
+#"
+#valueFormatter="px_strat.1_Day.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})"
+
+gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="sum", editable=True)
+#gridOptions = gb.build()
 gridOptions = {
-    # Master PX Table
-    "masterDetail": True,
-    "rowSelection": "single",
-    "cellClass":"ag-right-aligned-cell",
-    # the first Column is configured to use agGroupCellRenderer
-    "columnDefs": [
-        {"field": "Name","type":"leftAligned"},
-        {"field": "Cur_PX", "headerName": 'Close PX',"valueFormatter": "(x*1).toFixed(2)","type":"numericColumn"},
-        {"field": "weight", "headerName": 'Orig_Wt%',"valueFormatter": "(x*100).toFixed(2)","type":["numericColumn","numberColumnFilter"]},
-        {"field": "1_Day", "headerName": '1 Day', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
-        {"field": "1_Week", "headerName": '1 Week', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
-        {"field": "1_Month", "headerName": '1 Month', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
-        {"field": "3_Months", "headerName": '3 Month', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
-        {"field": "1_Year", "headerName": '1 Year', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
-        {"field": "Since_Intercept", "headerName": 'Since Intercept', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"}, 
-        {"field": "Return", "headerName": 'Return', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
-        {"field": "Start_PX", "headerName": 'Start PX',"valueFormatter": "(x*1).toFixed(2)","type":"numericColumn"},
-
-       # {"field": "Start_Date", "headerName": 'Start Date',"type":"dateColumn"},
-       # {"field": "A/O Date", "headerName": 'Close Date',"type":"rightAligned"},
-
-    ],
-    "defaultColDef": {
-        "flex": 1,
-    },
-}
-
-gridOptions_wt = {
     # enable Master / Detail
     "masterDetail": True,
     "rowSelection": "single",
     "cellClass":"ag-right-aligned-cell",
     # the first Column is configured to use agGroupCellRenderer
     "columnDefs": [
-        {"field": "symbol", "headerName": 'Name',"type":"leftAligned"},
-        {"field": "weight", "headerName": 'Curr_Wt%',"valueFormatter": "(x*100).toFixed(2)","type":"numericColumn"},
-        {"field": "coin_px", "headerName": 'Coin Price$',"valueFormatter": "(x).toFixed(2)","type":"numericColumn"},
-        {"field": "investment", "headerName": 'Investment$',"valueFormatter": "(x).toFixed(2)","type":"numericColumn"},
-        {"field": "coin_cnt", "headerName": 'Coin Owned',"valueFormatter": "(x).toFixed(2)","type":"numericColumn"},
+        {
+            "field": "name",
+            "cellRenderer": "agGroupCellRenderer",
+            "checkboxSelection": True,
+        },
+        {"field": "Name","type":"leftAligned"},
+        {"field": "Cur_PX", "headerName": 'Close PX',"valueFormatter": "(x*1).toFixed(2)","type":"numericColumn"},
+        {"field": "1_Day", "headerName": '1 Day', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
+        {"field": "1_Week", "headerName": '1 Week', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
+        {"field": "1_Month", "headerName": '1 Month', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
+        {"field": "3_Months", "headerName": '3 Month', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
+        {"field": "1_Year", "headerName": '1 Year', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
+        {"field": "1_Year", "headerName": '2 Year', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
+        {"field": "Since_Intercept", "headerName": 'Since Intercept', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},    
+        {"field": "Start_PX", "headerName": 'Start PX',"valueFormatter": "(x*1).toFixed(2)","type":"numericColumn"},
+        {"field": "Return", "headerName": 'Return', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
+        {"field": "Start_Date", "headerName": 'Start Date',"type":"dateColumn"},
+        {"field": "A/O Date", "headerName": 'Close Date',"type":"rightAligned"},
 
     ],
     "defaultColDef": {
@@ -128,25 +106,6 @@ gridOptions_wt = {
     },
 }
 
-
-AgGrid(selected_px_strat, gridOptions=gridOptions, allow_unsafe_jscode=True, enable_enterprise_modules=True, theme='dark')
-
-pie_fig = curr_weight.iplot(kind="pie", labels="symbol", values="weight",
-                         title=etf_name + " Coin Allocation",
-                         asFigure=True,
-                        hole=0.4)
-
-#pie_fig
-##################### Asset Detail Layout ##################
-
-container1 = st.container()
-col1, col2 = st.columns(2)
-
-with container1:
-    with col1:
-        pie_fig
-    with col2:
-        AgGrid(invest_by_weight, gridOptions=gridOptions_wt, allow_unsafe_jscode=True, enable_enterprise_modules=True)
+AgGrid(px_strat, gridOptions=gridOptions, allow_unsafe_jscode=True, enable_enterprise_modules=True, theme='dark')
 
 
-#container2 = st.container()
