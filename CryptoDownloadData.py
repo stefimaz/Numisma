@@ -13,6 +13,7 @@ import yfinance as yf
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from datetime import date
+import numpy as np
 import CryptoPerfSummary as coinAnalytic
 import EfficientFrontierCalculator as ef
 import get_index_data as gp
@@ -338,4 +339,28 @@ def get_etf_weight_by_date(etf_name, run_date):
     SELECT distinct symbol, weight FROM CRYPTO_ETF_WEIGHT where ETF = '{etf_name}' and date like '{run_date}%'"""
     weight_list= pd.read_sql_query(sql_query, crypto_data_connection_string)
     return weight_list
-    
+
+
+def get_etf_cum_return(etf_name, orig_weight, run_date, orig_date):
+    etf_list_array = orig_weight['symbol'].to_numpy()
+    daily_price_matrix = coinAnalytic.get_price_matrix(orig_weight, (orig_date+ relativedelta(days=-1)), run_date)
+    daily_return_matrix = coinAnalytic.get_daily_return_matrix(daily_price_matrix)
+    cumulative_returns_matrix =  coinAnalytic.get_cumulative_return_matrix(daily_price_matrix)
+    portfolio = daily_price_matrix[etf_list_array]
+    return_stocks = portfolio.pct_change()
+#return_stocks.head(10)
+    initial_weight = orig_weight['weight'].to_numpy()
+    daily_returns_portfolio_mean = return_stocks.mean()
+    allocated_daily_returns = (initial_weight * daily_returns_portfolio_mean)
+    portfolio_return = np.sum(allocated_daily_returns)
+#print(portfolio_return)
+    return_stocks[etf_name] = return_stocks.dot(initial_weight)
+    Cumulative_returns_daily = (1+return_stocks).cumprod()
+    Cumulative_returns_daily = Cumulative_returns_daily.dropna()
+    our_etf_df = pd.DataFrame(Cumulative_returns_daily[etf_name].copy())
+    our_etf_df.index = pd.to_datetime(our_etf_df.index)
+   # orig_df = pd.DataFrame({etf_name: '1.0'}, index = '2021-07-15')   
+    #our_etf_df = our_etf_df.append(orig_df)
+    #our_etf_df = our_etf_df.sort_index()
+    return our_etf_df
+
