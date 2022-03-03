@@ -9,10 +9,11 @@ from typing import Any, List
 import streamlit as st
 import streamlit.components.v1 as components
 from PIL import Image
+import pandas as pd
+
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder, JsCode
 from datetime import datetime
 from datetime import date
-import pandas as pd
 #Library - Project3 
 import CryptoDownloadData as coinData
 import CryptoPerfSummary as coinAnalytic
@@ -23,8 +24,6 @@ import cufflinks as cf
 import sqlalchemy as sql
 from pathlib import Path
 from st_aggrid.shared import JsCode
-
-
 
 import tweepy
 import config
@@ -64,6 +63,7 @@ client = tweepy.Client(bearer_token=config.TWITTER_BEARER_TOKEN)
 
 # Create a function called `generate_account` that automates the Ethereum
 # account creation process
+
 def generate_account(w3):
     """Create a digital wallet and Ethereum account from a mnemonic seed phrase."""
     # Access the mnemonic phrase from the `.env` file
@@ -82,6 +82,7 @@ def generate_account(w3):
     return account
 
 # Create a function called `get_balance` that calls = converts the wei balance of the account to ether, and returns the value of ether
+
 def get_balance(w3, address):
     """Using an Ethereum account address access the balance of Ether"""
     # Get balance of address in Wei
@@ -94,6 +95,7 @@ def get_balance(w3, address):
     return ether
 
 # Create a function called `send_transaction` that creates a raw transaction, signs it, and sends it. Return the confirmation hash from the transaction
+
 def send_transaction(w3, account, receiver, ether):
     """Send an authorized transaction."""
     # Set a medium gas price strategy
@@ -184,12 +186,10 @@ with col3:
 st.markdown("---")
 
 ##################################################################################
-share_detail_m = "BTC, ETH"
 
-
-portfolios_dict = {'Metadex Portfolio': {'Contract':contract,'Price':0.30001,'Logo':'Images/Metadex_pie.jpg', 'Description':'Metaverse is the technology behind a virtual universe where people can shop, game, buy and trade currencies and objects and more. Think of it as a combination of augmented reality, virtual reality, social media, gaming and cryptocurrencies. This Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.','Pie':'Images/metaPIE.PNG','ShortName':'Metadex'}, 
-                   'Ventidex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Ventidex_pie.jpg', 'Description':'Market cap allows you to compare the total value of one cryptocurrency with another so you can make more informed investment decisions. Cryptocurrencies are classified by their market cap into three categories: Large-cap cryptocurrencies, including Bitcoin and Ethereum, have a market cap of more than $10 billion.', 'Creation':'Why and how we came up with this index','Pie':'Images/coinbasePIE.PNG','ShortName':'Ventidex'}, 
-                   'Farmdex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Farmdex_pie.jpg', 'Description':'Yield farming is an investment strategy in decentralised finance or DeFi. It involves lending or staking your cryptocurrency coins or tokens to get rewards in the form of transaction fees or interest.', 'Creation':'Why and how we came up with this index','Pie':'Images/farmPIE.PNG','ShortName':'Farmdex'}}
+portfolios_dict = {'Metadex Portfolio': {'Contract':contract,'Price':0.30001,'Logo':'Images/Metadex_chart.png', 'Description':'Metaverse is the technology behind a virtual universe where people can shop, game, buy and trade currencies and objects and more. Think of it as a combination of augmented reality, virtual reality, social media, gaming and cryptocurrencies. This Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.','Pie':'Images/metaPIE.PNG','ShortName':'Metadex'}, 
+                   'Ventidex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Metadex_chart.png', 'Description':'Market cap allows you to compare the total value of one cryptocurrency with another so you can make more informed investment decisions. Cryptocurrencies are classified by their market cap into three categories: Large-cap cryptocurrencies, including Bitcoin and Ethereum, have a market cap of more than $10 billion.', 'Creation':'Why and how we came up with this index','Pie':'Images/coinbasePIE.PNG','ShortName':'Ventidex'},
+                   'Farmdex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Metadex_chart.png', 'Description':'Yield farming is an investment strategy in decentralised finance or DeFi. It involves lending or staking your cryptocurrency coins or tokens to get rewards in the form of transaction fees or interest.', 'Creation':'Why and how we came up with this index','Pie':'Images/farmPIE.PNG','ShortName':'Farmdex'}}
 
 #################################################################################
 # Sidebar setup
@@ -211,6 +211,7 @@ st.header(f"{selected_portfolio} Creation strategy")
 st.write(portfolios_dict[selected_portfolio]['Creation'])
 
 st.markdown("---")
+###############################################################################
 
 ################################################################################
 # <--portfolio summary--> Start here
@@ -350,12 +351,12 @@ with container1:
 
 ### <--portfolio summary--> end here ########
 
-###############################################################################
+################################################################################
 # Buying the portfolio
 ################################################################################
 st.title(f"Buy The {selected_portfolio}")
 
-st.image(portfolios_dict[selected_portfolio]['Pie'])
+# st.image(portfolios_dict[selected_portfolio]['Pie'])
 
 # receiver = "0x33dEA8432248DD86680428696975755715a85fFC"
 # Use a streamlit component to get the address of the user
@@ -367,7 +368,7 @@ st.subheader(f'You have ETH: {balance:.3f} in this wallet')
 amount = st.number_input("How many shares do you want to buy?", min_value=1, value=1, step=1)
 st.subheader(f"You have selected {amount} shares")
 
-st.markdown(f" You will get Total {share_detail_m} for each share")
+st.markdown(f" You will get Total {curr_weight} for each share")
 
 share_price = portfolios_dict[selected_portfolio]['Price']
 cost = (share_price) * amount
@@ -458,7 +459,7 @@ st.markdown("## Display information about my Token")
 
 tokens = contract.functions.balanceOf(address).call()
 
-st.write(f"This address owns {tokens} tokens")
+# st.write(f"This address owns {tokens} tokens")
 
 # token_id = st.selectbox("Index Portfolio Tokens", list(range(tokens)))
 
