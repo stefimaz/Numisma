@@ -13,8 +13,10 @@ import yfinance as yf
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from datetime import date
+import numpy as np
 import CryptoPerfSummary as coinAnalytic
-
+import EfficientFrontierCalculator as ef
+import get_index_data as gp
 load_dotenv()
 alpha_api_key = os.getenv("ALPHA_API_KEY")
 
@@ -231,44 +233,134 @@ def get_pxhist_by_symbol_list(symbol_list, column_name = None, start_date = None
     return px_history_df
 
 
-def get_base_pxhorizon_matrix():
+def get_base_pxhorizon_matrix(t_date = None):
     sql_query = """
     SELECT max(date) date FROM CRYPTO_PX_HISTORY order by date desc"""
     t_date_str= pd.read_sql_query(sql_query, crypto_data_connection_string)
     t_date_str.iat[0,0]
     #print(type(t_date))
-    t_date = datetime.strptime(t_date_str.iat[0,0], '%Y-%m-%d').date()
+    if t_date == None:
+        t_date = datetime.strptime(t_date_str.iat[0,0], '%Y-%m-%d').date()
+        t_date = t_date + relativedelta(days=-1)
     date_list = get_market_datas_by_period(t_date)
-    x_start_date = datetime(2021, 1, 1)
-    x_end_date = datetime(2021, 6, 1)
+    x_start_date = datetime(2021, 7, 15)
+    x_end_date = datetime(2021, 12, 1)
     y_end_date = t_date 
     daily_xy_horizon_return_matrix = coinAnalytic.get_xy_daily_return_matrix(t_date, x_start_date, x_end_date, y_end_date)
     return daily_xy_horizon_return_matrix
 
 
-def get_base_pxchanges_matrix():
-    daily_xy_horizon_return_matrix = get_base_pxhorizon_matrix()
-    return_matrix = pd.DataFrame()
-    return_matrix['A/O Date'] = daily_xy_horizon_return_matrix['Y_End Date']
-    return_matrix['Name'] = daily_xy_horizon_return_matrix.index
-    return_matrix['Cur_PX'] = daily_xy_horizon_return_matrix['D0']
-    return_matrix['1_Day'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['D1'])/daily_xy_horizon_return_matrix['D1']
-    return_matrix['1_Week'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['W1'])/daily_xy_horizon_return_matrix['W1']
-    return_matrix['1_Month'] =100 *  (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['M1'])/daily_xy_horizon_return_matrix['M1']
-    return_matrix['3_Months'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['M3'])/daily_xy_horizon_return_matrix['M3']
-    return_matrix['YTD'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y0_YTD'])/daily_xy_horizon_return_matrix['Y0_YTD']
-    return_matrix['1_Year'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y1'])/daily_xy_horizon_return_matrix['Y1']
-    return_matrix['2_Years'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y2'])/daily_xy_horizon_return_matrix['Y2']
-    return_matrix['3_Years'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y3'])/daily_xy_horizon_return_matrix['Y3']
-    return_matrix['Start_Date'] = daily_xy_horizon_return_matrix['Start Date']
-    return_matrix['Since_Intercept'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Start Cost'])/daily_xy_horizon_return_matrix['Start Cost']
-    return_matrix['Start_PX'] = daily_xy_horizon_return_matrix['Start Cost']
-    return_matrix['Return'] = 100 * daily_xy_horizon_return_matrix['XY_Return']
-    return_matrix = return_matrix.fillna('--')
-    return_matrix = return_matrix.round({'1_Day': 2})
+def get_base_pxchanges_matrix(t_date = None):
+    
+    if (t_date == None) or (t_date >= date(2022, 3, 2)):
+        t_date = date(2022, 3, 2)
+    
+    sql_query = f"""
+    SELECT * FROM PX_SUMMARY_CACHE where [A/O Date] = '{t_date}'"""# where date = '{t_date}' and ETF = '{etf_name}'"""
+    summary_list= pd.read_sql_query(sql_query, crypto_data_connection_string)
+    summary_list.set_index('symbol', inplace=True)
+    return_matrix = summary_list
+    
+    if len(summary_list) == 0:
+    
+        daily_xy_horizon_return_matrix = get_base_pxhorizon_matrix(t_date)
+        return_matrix = pd.DataFrame()
+        return_matrix['A/O Date'] = daily_xy_horizon_return_matrix['Y_End Date']
+        return_matrix['Name'] = daily_xy_horizon_return_matrix.index
+        return_matrix['Cur_PX'] = daily_xy_horizon_return_matrix['D0']
+        return_matrix['1_Day'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['D1'])/daily_xy_horizon_return_matrix['D1']
+        return_matrix['1_Week'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['W1'])/daily_xy_horizon_return_matrix['W1']
+        return_matrix['1_Month'] =100 *  (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['M1'])/daily_xy_horizon_return_matrix['M1']
+        return_matrix['3_Months'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['M3'])/daily_xy_horizon_return_matrix['M3']
+        return_matrix['YTD'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y0_YTD'])/daily_xy_horizon_return_matrix['Y0_YTD']
+        return_matrix['1_Year'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y1'])/daily_xy_horizon_return_matrix['Y1']
+        return_matrix['2_Years'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y2'])/daily_xy_horizon_return_matrix['Y2']
+        return_matrix['3_Years'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Y3'])/daily_xy_horizon_return_matrix['Y3']
+        return_matrix['Start_Date'] = daily_xy_horizon_return_matrix['Start Date']
+        return_matrix['Since_Intercept'] = 100 * (daily_xy_horizon_return_matrix['D0']-daily_xy_horizon_return_matrix['Start Cost'])/daily_xy_horizon_return_matrix['Start Cost']
+        return_matrix['Start_PX'] = daily_xy_horizon_return_matrix['Start Cost']
+        return_matrix['Return'] = 100 * daily_xy_horizon_return_matrix['XY_Return']
+        return_matrix = return_matrix.fillna('--')
+        return_matrix = return_matrix.round({'1_Day': 2})
+        return_matrix.to_sql('PX_SUMMARY_CACHE', crypto_data_engine, index=True, if_exists='append') #Cache the data for fast loading
     return return_matrix
 
 def get_pxhist_by_etfname(etf_name = None, column_name = None, start_date = None, end_date = None):
     symbol_list = get_symbollist_by_index(etf_name)
     px_history_df = get_pxhist_by_symbol_list(symbol_list, column_name, start_date, end_date)
     return px_history_df
+
+def get_etf_list(etf_name):
+    #if eft_name is None:
+    #    etf_name = "farmdex','Metadex','Ventidex"
+    #
+    sql_query = f"""
+    SELECT * FROM ETF_LIST where ETF = '{etf_name}'"""
+    etf_list= pd.read_sql_query(sql_query, crypto_data_connection_string)
+    return etf_list
+
+
+def calculate_save_etf_weight(etf_name, start_date, end_date):
+    etf_list = get_etf_list(etf_name)
+    t_date = start_date + relativedelta(days=365)
+    symbol_list = pd.DataFrame(etf_list['symbol'].loc[etf_list['ETF']==etf_name])
+    symbol_list = symbol_list.reset_index(drop=True)
+    #display(symbol_list)
+    daily_price_matrix = coinAnalytic.get_price_matrix(symbol_list, start_date, end_date)
+    daily_price_matrix.index = pd.to_datetime(daily_price_matrix.index)
+    daily_price_dates = daily_price_matrix.loc[daily_price_matrix.index>=t_date]
+
+    
+    
+    for date in daily_price_dates.index:
+        price = daily_price_matrix.loc[daily_price_matrix.index<=date].tail(365)
+        weights = ef.calculate_efficient_frontier(price)
+        weight_df = pd.DataFrame(columns=['date','ETF', 'symbol', 'weight'])
+        index_no = 0
+        for weight in weights:
+            #print(index_no)
+            symbol =  (symbol_list.loc[index_no, 'symbol'])
+            print(date)
+            if date is not None:
+                weight_df = weight_df.append(pd.DataFrame({'date':[date], 'ETF': [etf_name], 'symbol':[symbol], 'weight':[weight]}))
+            index_no = index_no + 1
+            
+            #weight_df = weight_df.dropna
+        display(weight_df)
+        weight_df.set_index('date', inplace=True)
+        weight_df = weight_df.dropna()
+        weight_df.to_sql('CRYPTO_ETF_WEIGHT', crypto_data_engine, index=True, if_exists='append')
+
+
+def get_etf_weight_by_date(etf_name, run_date):
+    if run_date == date(2022, 3, 2):
+        run_date = date(2022, 3, 3)
+    sql_query = f"""
+    SELECT distinct symbol, weight FROM CRYPTO_ETF_WEIGHT where ETF = '{etf_name}' and date like '{run_date}%'"""
+    weight_list= pd.read_sql_query(sql_query, crypto_data_connection_string)
+    return weight_list
+
+
+def get_etf_cum_return(etf_name, orig_weight, run_date, orig_date):
+    etf_list_array = orig_weight['symbol'].to_numpy()
+    daily_price_matrix = coinAnalytic.get_price_matrix(orig_weight, (orig_date+ relativedelta(days=-1)), run_date)
+    daily_return_matrix = coinAnalytic.get_daily_return_matrix(daily_price_matrix)
+    cumulative_returns_matrix =  coinAnalytic.get_cumulative_return_matrix(daily_price_matrix)
+    portfolio = daily_price_matrix[etf_list_array]
+    return_stocks = portfolio.pct_change()
+#return_stocks.head(10)
+    initial_weight = orig_weight['weight'].to_numpy()
+    daily_returns_portfolio_mean = return_stocks.mean()
+    allocated_daily_returns = (initial_weight * daily_returns_portfolio_mean)
+    portfolio_return = np.sum(allocated_daily_returns)
+#print(portfolio_return)
+    return_stocks[etf_name] = return_stocks.dot(initial_weight)
+    Cumulative_returns_daily = (1+return_stocks).cumprod()
+    Cumulative_returns_daily = Cumulative_returns_daily.dropna()
+    our_etf_df = pd.DataFrame(Cumulative_returns_daily[etf_name].copy())
+    our_etf_df.index = pd.to_datetime(our_etf_df.index)
+   # orig_df = pd.DataFrame({etf_name: '1.0'}, index = '2021-07-15')   
+    #our_etf_df = our_etf_df.append(orig_df)
+    #our_etf_df = our_etf_df.sort_index()
+    return our_etf_df
+

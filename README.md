@@ -55,6 +55,8 @@ Installation instructions
 $ pip install yfinance --upgrade --no-cache-dir
 $ pip install streamlit-aggrid
 $ Pip install tweepy
+$ pip install cufflinks --upgrade
+$ pip install chart_studio
 This project leverages python 3.7 Streamlit and scikit-learn.
 
 A [conda](https://docs.conda.io/en/latest/) environment with liabraries listed below and [Jupyter Notebook/Lab](https://jupyter.org/) are required to run the code.
