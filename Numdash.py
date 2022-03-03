@@ -121,11 +121,11 @@ accounts = w3.eth.accounts
 def load_contract():
 
     # Load the contract ABI
-    with open(Path('./VentidexToken_abi.json')) as f:
+    with open(Path('./VentidexToken_plain_abi.json')) as f:
         contract_abi = json.load(f)
 
     # Set the contract address (this is the address of the deployed contract)
-    contract_address = os.getenv("SMART_CONTRACT_ADDRESS_VENTIDEXTOKEN")
+    contract_address = os.getenv("SMART_CONTRACT_ADDRESS_VENTIDEXTOKEN_Plain")
 
     # Get the contract
     contract = w3.eth.contract(
@@ -195,8 +195,7 @@ st.header(f"{selected_portfolio}' Creation strategy")
 st.write(portfolios_dict[selected_portfolio]['Creation'])
 
 st.markdown("---")
-
-
+###############################################################################
 ################################################################################
 # Buying the portfolio
 ################################################################################
@@ -229,17 +228,17 @@ if st.button("Buy Now"):
     ## need a other function to take in count the amount od eth to be sent!!
     #########################################################################
     
-    transaction_hash = send_transaction(w3, account, receiver, cost)
+    # transaction_hash = send_transaction(w3, account, receiver, cost)
 
     
     ##########################################################################
-    #tx_hash = contract.functions.mint(address, amount).transact({
-    #    "from": address, "gas": 1000000})
+    tx_hash = contract.functions.mint().transact({
+        "from": address, "gas": 1000000})
     
     
     
 
-    receipt = w3.eth.wait_for_transaction_receipt(transaction_hash)
+    receipt = w3.eth.waitForTransactionReceipt(tx_hash)
     st.write("Transaction receipt mined:")
     st.write("Congratulation on your purchase, Here is your Blockchain receipt")
     st.success(dict(receipt))
@@ -317,7 +316,8 @@ st.write(f"This address owns {tokens} tokens")
 if st.button("Display"):
 
     # Use the contract's `ownerOf` function to get the art token owner
-    owner =  contract.functions.ownerOf(tokens).call()
+    owner =  holder_name
+    #contract.functions.ownerOf(tokens).call()
 
     st.write(f"The token is registered to {owner}")
     
@@ -327,10 +327,10 @@ if st.button("Display"):
 
     # Use the contract's `tokenURI` function to get the art token's URI
     
-    token_uri =  contract.functions.tokenURI(tokens).call()
+    #token_uri =  contract.functions.tokenURI(tokens).call()
 
-    st.write(f"The tokenURI is {token_uri}")
-   # st.image(token_uri)
+   # st.write(f"The tokenURI is {token_uri}")
+    st.image(portfolios_dict[selected_portfolio]['Pie'])
 
 ################################################################################
 # Identify top twitter usernames on crytocurrency
