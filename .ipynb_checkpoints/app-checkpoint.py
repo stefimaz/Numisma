@@ -68,34 +68,28 @@ def pin_appraisal_report(report_content):
     return report_ipfs_hash
 
 st.title("Numisma Investment System")
-st.write("Choose one of the following investment options to learn more")
+st.write("Learn about your options")
 col1, col2, col3 = st.columns(3)
 with col1:
     st.header("FarmDex")
     st.image('./images/farmyield.jpg')
     with st.expander("See explanation"):
      st.write("""
-         The chart above shows some numbers I picked for you.
-         I rolled actual dice for these, so they're *guaranteed* to
-         be random.
+         Yield farming is an investment strategy in decentralised finance or DeFi. It involves lending or staking your cryptocurrency coins or tokens to get rewards in the form of transaction fees or interest.
      """)
 with col2:
     st.header("MetaDex")
     st.image('./images/metaverse.jpg')
     with st.expander("See explanation"):
      st.write("""
-         The chart above shows some numbers I picked for you.
-         I rolled actual dice for these, so they're *guaranteed* to
-         be random.
+         Metaverse is the technology behind a virtual universe where people can shop, game, buy and trade currencies and objects and more. Think of it as a combination of augmented reality, virtual reality, social media, gaming and cryptocurrencies.
      """)
 with col3:
     st.header("VentiDex")
     st.image('./images/venti.jpg')
     with st.expander("See explanation"):
      st.write("""
-         The chart above shows some numbers I picked for you.
-         I rolled actual dice for these, so they're *guaranteed* to
-         be random.
+         Market cap allows you to compare the total value of one cryptocurrency with another so you can make more informed investment decisions. Cryptocurrencies are classified by their market cap into three categories: Large-cap cryptocurrencies, including Bitcoin and Ethereum, have a market cap of more than $10 billion.
      """)
 
 
@@ -133,6 +127,4 @@ if st.button("Register Investment"):
     st.write("You can view the pinned metadata file with the following IPFS Gateway Link")
     st.markdown(f"[IPFS Gateway Link](https://ipfs.io/ipfs/{investment_ipfs_hash})")
 st.markdown("---")
-st.caption('Balloons. Hundreds of them...')
-
 
