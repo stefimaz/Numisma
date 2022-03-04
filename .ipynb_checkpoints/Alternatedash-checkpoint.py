@@ -51,6 +51,13 @@ st.set_page_config(page_title='Numisma: Diversify your crypto holdings', layout=
 # Set keys
 ################################################################################
 
+client = tweepy.Client(
+    consumer_key=config.TWITTER_CONSUMER_KEY,
+    consumer_secret=config.TWITTER_CONSUMER_SECRET,
+    access_token=config.TWITTER_ACCESS_TOKEN,
+    access_token_secret=config.TWITTER_ACCESS_TOKEN_SECRET
+)
+
 client = tweepy.Client(bearer_token=config.TWITTER_BEARER_TOKEN)
 #####################################################################
 
