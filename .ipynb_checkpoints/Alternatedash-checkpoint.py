@@ -26,7 +26,6 @@ from pathlib import Path
 from st_aggrid.shared import JsCode
 
 import tweepy
-import config
 from tweepy.auth import OAuthHandler
 
 from web3.gas_strategies.time_based import medium_gas_price_strategy
@@ -41,7 +40,6 @@ from eth_account import Account
 
 from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
 load_dotenv("api.env")
-
 # Define and connect a new Web3 provider
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 
@@ -50,13 +48,6 @@ st.set_page_config(page_title='Numisma: Diversify your crypto holdings', layout=
 ################################################################################
 # Set keys
 ################################################################################
-
-client = tweepy.Client(
-    consumer_key=config.TWITTER_CONSUMER_KEY,
-    consumer_secret=config.TWITTER_CONSUMER_SECRET,
-    access_token=config.TWITTER_ACCESS_TOKEN,
-    access_token_secret=config.TWITTER_ACCESS_TOKEN_SECRET
-)
 
 client = tweepy.Client(bearer_token=config.TWITTER_BEARER_TOKEN)
 #####################################################################

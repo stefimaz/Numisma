@@ -26,7 +26,6 @@ from pathlib import Path
 from st_aggrid.shared import JsCode
 
 import tweepy
-import config
 from tweepy.auth import OAuthHandler
 
 from web3.gas_strategies.time_based import medium_gas_price_strategy
@@ -41,7 +40,6 @@ from eth_account import Account
 
 from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
 load_dotenv("api.env")
-
 # Define and connect a new Web3 provider
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 
