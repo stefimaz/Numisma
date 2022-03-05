@@ -8,7 +8,7 @@
 [Stephane Maysn](https://www.linkedin.com/in/stephane-masyn-35b16817a/) [<img src="https://cdn2.auth0.com/docs/media/connections/linkedin.png" alt="LinkedIn -  Staphane Masyn" width=15/>](https://www.linkedin.com/in/stephane-masyn-35b16817a/)
 [John Sung](https://linkedin.com/in/john-sung-3675569) [<img src="https://cdn2.auth0.com/docs/media/connections/linkedin.png" alt="LinkedIn -  John Sung" width=15/>](https://linkedin.com/in/john-sung-3675569/)
                                                              
-![numisma](images/numisma.PNG)
+![numisma](Images/Numisma.PNG)
 
 ---
 
@@ -92,31 +92,31 @@ Install the following librarie(s) in your terminal...
 ## Front end application images
 
 ### Learn about the options
-![options](images/learn_option.PNG)
+![options](Images/learn_option.PNG)
 
 ### Streamlit Image of MetaDex Portfolio
-![MetaDex](images/MetaDex.PNG)
+![MetaDex](Images/MetaDex.PNG)
 
 ### Showing the scores being predicted 
-![score_predictor](images/back_end_score_predictor.PNG)
+![score_predictor](Images/back_end_score_predictor.PNG)
 
 ### Social Media Content
-![twitter](images/twitter.PNG)
+![twitter](Images/twitter.PNG)
 
 
 ## Front end application images
 
 ### Select the team for analysis
-![Choose Team](images/choose_team_annalysis.PNG)
+![Choose Team](Images/choose_team_annalysis.PNG)
 
 ### Choose the model
-![Choose Model](images/choose_model.PNG)
+![Choose Model](Images/choose_model.PNG)
 
 ### Run the model for projection
-![Run Praedico](images/click_run_praedico.PNG)
+![Run Praedico](Images/click_run_praedico.PNG)
 
 ### The WINNER is... 
-![Winner Praedico](images/winner_prediction.PNG)
+![Winner Praedico](Images/winner_prediction.PNG)
 
 ---
 
