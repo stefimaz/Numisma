@@ -81,10 +81,10 @@ pip install bip44
 ![MetaDex](Images/MetaDex.PNG)
 
 ### Select the Index for analysis
-![Choose Index](Images/choose_index_annalysis.PNG)
+![Choose Index](Images/Portfolio_demo.gif)
 
 ### Buy now
-![Choose Model](Images/choose_model.PNG)
+![Choose Model](Images/Buying_demo.gif)
 
 ### Take Photo and Register
 ![Photo](Images/click_run_praedico.PNG)
