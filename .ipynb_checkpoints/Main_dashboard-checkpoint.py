@@ -40,7 +40,7 @@ from bip44 import Wallet
 from eth_account import Account
 
 from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
-load_dotenv("api.env")
+load_dotenv()
 
 # Define and connect a new Web3 provider
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
