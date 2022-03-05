@@ -9,10 +9,11 @@ from typing import Any, List
 import streamlit as st
 import streamlit.components.v1 as components
 from PIL import Image
+import pandas as pd
+
 from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder, JsCode
 from datetime import datetime
 from datetime import date
-import pandas as pd
 #Library - Project3 
 import CryptoDownloadData as coinData
 import CryptoPerfSummary as coinAnalytic
@@ -24,10 +25,8 @@ import sqlalchemy as sql
 from pathlib import Path
 from st_aggrid.shared import JsCode
 
-
-
 import tweepy
-import config
+# import config
 from tweepy.auth import OAuthHandler
 
 from web3.gas_strategies.time_based import medium_gas_price_strategy
@@ -51,19 +50,21 @@ st.set_page_config(page_title='Numisma: Diversify your crypto holdings', layout=
 ################################################################################
 # Set keys
 ################################################################################
-
+# os.getenv("WEB3_PROVIDER_URI"))
 client = tweepy.Client(
-    consumer_key=config.TWITTER_CONSUMER_KEY,
-    consumer_secret=config.TWITTER_CONSUMER_SECRET,
-    access_token=config.TWITTER_ACCESS_TOKEN,
-    access_token_secret=config.TWITTER_ACCESS_TOKEN_SECRET
+    consumer_key=os.getenv("TWITTER_CONSUMER_KEY"),
+    consumer_secret=os.getenv("TWITTER_CONSUMER_SECRET"),
+    access_token=os.getenv("TWITTER_ACCESS_TOKEN"),
+    access_token_secret=os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 )
 
-client = tweepy.Client(bearer_token=config.TWITTER_BEARER_TOKEN)
+
+client = tweepy.Client(bearer_token=os.getenv("TWITTER_BEARER_TOKEN"))
 #####################################################################
 
 # Create a function called `generate_account` that automates the Ethereum
 # account creation process
+
 def generate_account(w3):
     """Create a digital wallet and Ethereum account from a mnemonic seed phrase."""
     # Access the mnemonic phrase from the `.env` file
@@ -82,6 +83,7 @@ def generate_account(w3):
     return account
 
 # Create a function called `get_balance` that calls = converts the wei balance of the account to ether, and returns the value of ether
+
 def get_balance(w3, address):
     """Using an Ethereum account address access the balance of Ether"""
     # Get balance of address in Wei
@@ -94,6 +96,7 @@ def get_balance(w3, address):
     return ether
 
 # Create a function called `send_transaction` that creates a raw transaction, signs it, and sends it. Return the confirmation hash from the transaction
+
 def send_transaction(w3, account, receiver, ether):
     """Send an authorized transaction."""
     # Set a medium gas price strategy
@@ -123,25 +126,20 @@ def send_transaction(w3, account, receiver, ether):
 
 accounts = w3.eth.accounts 
 
-# account = w3.eth.getAccounts().then(function(response) { accounts = response; console.log(accounts[0];} );
-#web3.eth.getAccounts(function(response) { account = response; })
-#console.log(accounts[0])
-# st.write(account.address)
-
 # The contracts have to be loaded separately for eack Token index
 # Load the contract once using cache
 # Connects to the contract using the contract address and ABI
 # loading contract fot --------- token index
 @st.cache(allow_output_mutation=True)
 
-def load_contract():
+def load_contract1():
 
     # Load the contract ABI
-    with open(Path('./VentidexToken_plain_abi.json')) as f:
+    with open(Path('./Contracts/Compiled/VentidexToken_abi.json')) as f:
         contract_abi = json.load(f)
 
     # Set the contract address (this is the address of the deployed contract)
-    contract_address = os.getenv("SMART_CONTRACT_ADDRESS_VENTIDEXTOKEN_Plain")
+    contract_address = os.getenv("SMART_CONTRACT_ADDRESS_VENTIDEXTOKEN")
 
     # Get the contract
     contract = w3.eth.contract(
@@ -150,7 +148,43 @@ def load_contract():
     
     return contract
 # Load the contract
-contract = load_contract()
+contract1 = load_contract1()
+
+def load_contract2():
+
+    # Load the contract ABI
+    with open(Path('./Contracts/Compiled/MetadexToken_abi.json')) as f:
+        contract_abi = json.load(f)
+
+    # Set the contract address (this is the address of the deployed contract)
+    contract_address = os.getenv("SMART_CONTRACT_ADDRESS_METADEXTOKEN")
+
+    # Get the contract
+    contract = w3.eth.contract(
+        address=contract_address,
+        abi=contract_abi)
+    
+    return contract
+# Load the contract
+contract2 = load_contract2()
+
+def load_contract3():
+
+    # Load the contract ABI
+    with open(Path('./Contracts/Compiled/FarmdeTokenx_abi.json')) as f:
+        contract_abi = json.load(f)
+
+    # Set the contract address (this is the address of the deployed contract)
+    contract_address = os.getenv("SMART_CONTRACT_ADDRESS_FARMDEXTOKEN")
+
+    # Get the contract
+    contract = w3.eth.contract(
+        address=contract_address,
+        abi=contract_abi)
+    
+    return contract
+# Load the contract
+contract3 = load_contract3()
 ################################################################################################
 # Streamlit page building
 #################################################################################################
@@ -184,12 +218,10 @@ with col3:
 st.markdown("---")
 
 ##################################################################################
-share_detail_m = "BTC, ETH"
 
-
-portfolios_dict = {'Metadex Portfolio': {'Contract':contract,'Price':0.30001,'Logo':'Images/Metadex_pie.jpg', 'Description':'Metaverse is the technology behind a virtual universe where people can shop, game, buy and trade currencies and objects and more. Think of it as a combination of augmented reality, virtual reality, social media, gaming and cryptocurrencies. This Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.','Pie':'Images/metaPIE.PNG','ShortName':'Metadex'}, 
-                   'Ventidex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Ventidex_pie.jpg', 'Description':'Market cap allows you to compare the total value of one cryptocurrency with another so you can make more informed investment decisions. Cryptocurrencies are classified by their market cap into three categories: Large-cap cryptocurrencies, including Bitcoin and Ethereum, have a market cap of more than $10 billion.', 'Creation':'Why and how we came up with this index','Pie':'Images/coinbasePIE.PNG','ShortName':'Ventidex'}, 
-                   'Farmdex Portfolio':{'Contract':contract,'Price':0.30001,'Logo':'Images/Farmdex_pie.jpg', 'Description':'Yield farming is an investment strategy in decentralised finance or DeFi. It involves lending or staking your cryptocurrency coins or tokens to get rewards in the form of transaction fees or interest.', 'Creation':'Why and how we came up with this index','Pie':'Images/farmPIE.PNG','ShortName':'Farmdex'}}
+portfolios_dict = {'Metadex Portfolio': {'Contract':contract1,'Price':0.30001,'Logo':'Images/Metadex_chart.png', 'Description':'Metaverse is the technology behind a virtual universe where people can shop, game, buy and trade currencies and objects and more. Think of it as a combination of augmented reality, virtual reality, social media, gaming and cryptocurrencies. This Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.','Pie':'Images/metaPIE.PNG','ShortName':'Metadex'}, 
+                   'Ventidex Portfolio':{'Contract':contract2,'Price':0.30001,'Logo':'Images/Metadex_chart.png', 'Description':'Market cap allows you to compare the total value of one cryptocurrency with another so you can make more informed investment decisions. Cryptocurrencies are classified by their market cap into three categories: Large-cap cryptocurrencies, including Bitcoin and Ethereum, have a market cap of more than $10 billion.', 'Creation':'Why and how we came up with this index','Pie':'Images/coinbasePIE.PNG','ShortName':'Ventidex'},
+                   'Farmdex Portfolio':{'Contract':contract3,'Price':0.30001,'Logo':'Images/Metadex_chart.png', 'Description':'Yield farming is an investment strategy in decentralised finance or DeFi. It involves lending or staking your cryptocurrency coins or tokens to get rewards in the form of transaction fees or interest.', 'Creation':'Why and how we came up with this index','Pie':'Images/farmPIE.PNG','ShortName':'Farmdex'}}
 
 #################################################################################
 # Sidebar setup
@@ -211,6 +243,7 @@ st.header(f"{selected_portfolio} Creation strategy")
 st.write(portfolios_dict[selected_portfolio]['Creation'])
 
 st.markdown("---")
+###############################################################################
 
 ################################################################################
 # <--portfolio summary--> Start here
@@ -350,12 +383,12 @@ with container1:
 
 ### <--portfolio summary--> end here ########
 
-###############################################################################
+################################################################################
 # Buying the portfolio
 ################################################################################
 st.title(f"Buy The {selected_portfolio}")
 
-st.image(portfolios_dict[selected_portfolio]['Pie'])
+# st.image(portfolios_dict[selected_portfolio]['Pie'])
 
 # receiver = "0x33dEA8432248DD86680428696975755715a85fFC"
 # Use a streamlit component to get the address of the user
@@ -367,7 +400,7 @@ st.subheader(f'You have ETH: {balance:.3f} in this wallet')
 amount = st.number_input("How many shares do you want to buy?", min_value=1, value=1, step=1)
 st.subheader(f"You have selected {amount} shares")
 
-st.markdown(f" You will get Total {share_detail_m} for each share")
+st.markdown(f" You will get Total {curr_weight} for each share")
 
 share_price = portfolios_dict[selected_portfolio]['Price']
 cost = (share_price) * amount
@@ -384,7 +417,7 @@ if st.button("Buy Now"):
     # transaction_hash = send_transaction(w3, account, receiver, cost)
     
     ##########################################################################
-    tx_hash = contract.functions.mint().transact({
+    tx_hash = portfolios_dict[selected_portfolio]['Contract'].functions.mint().transact({
         "from": address, "gas": 1000000})
     
     receipt = w3.eth.waitForTransactionReceipt(tx_hash)
@@ -432,11 +465,11 @@ initial_index_value = cost * 2850
 #file = st.file_uploader("Upload Artwork", type=["jpg", "jpeg", "png"]) ## have to have the getvalue() function in pin_artwork
 file = st.camera_input("Picture recording")
 
-if st.button("Register Index Portfolio"):
+if st.button("Register Your Index Portfolio"):
     # Use the `pin_artwork` helper function to pin the file to IPFS
     artwork_ipfs_hash =  pin_artwork(index_name, file)
     artwork_uri = f"ipfs://{artwork_ipfs_hash}"
-    tx_hash = contract.functions.registerPortfolio(
+    tx_hash = portfolios_dict[selected_portfolio]['Contract'].functions.registerPortfolio(
         address,
         index_name,
         holder_name,
@@ -456,9 +489,9 @@ st.markdown("## Display information about my Token")
 
 #selected_address = st.selectbox("Select Account", options=accounts)
 
-tokens = contract.functions.balanceOf(address).call()
+tokens = portfolios_dict[selected_portfolio]['Contract'].functions.balanceOf(address).call()
 
-st.write(f"This address owns {tokens} tokens")
+# st.write(f"This address owns {tokens} tokens")
 
 # token_id = st.selectbox("Index Portfolio Tokens", list(range(tokens)))
 
