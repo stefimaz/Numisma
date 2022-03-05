@@ -74,22 +74,22 @@ pip install bip44
 ## Front end application images
 
 ### Learn about the options
-![options](images/learn_option.PNG)
+![options](Images/learn_option.PNG)
 
 ### Streamlit Image of MetaDex Portfolio
-![MetaDex](images/MetaDex.PNG)
+![MetaDex](Images/MetaDex.PNG)
 
 ### Select the Index for analysis
-![Choose Index](images/choose_index_annalysis.PNG)
+![Choose Index](Images/choose_index_annalysis.PNG)
 
 ### Buy now
-![Choose Model](images/choose_model.PNG)
+![Choose Model](Images/choose_model.PNG)
 
 ### Take Photo and Register
-![Photo](images/click_run_praedico.PNG)
+![Photo](Images/click_run_praedico.PNG)
 
 ### Social Media Content
-![twitter](images/twitter.PNG)
+![twitter](Images/twitter.PNG)
 
 ---
 
