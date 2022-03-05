@@ -138,7 +138,7 @@ Please experience Praedico for yourself. Choose between the following...
 
 ## Presentation Deck
 
-https://www.canva.com/design/DAE5wI_OonA/zFJJ5TdGuH_ECA2JeHIAFQ/view?utm_content=DAE5wI_OonA&utm_campaign=designshare&utm_medium=link&utm_source=shareyourdesignpanel#16
+https://www.canva.com/design/DAE5wI_OonA/zFJJ5TdGuH_ECA2JeHIAFQ/view?utm_content=DAE5wI_OonA&utm_campaign=designshare&utm_medium=link&utm_source=shareyourdesignpanel#1
 
 ---
 
