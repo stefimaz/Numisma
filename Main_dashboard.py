@@ -40,7 +40,7 @@ from bip44 import Wallet
 from eth_account import Account
 
 from pinata import pin_file_to_ipfs, pin_json_to_ipfs, convert_data_to_json
-load_dotenv()
+load_dotenv("api.env")
 
 # Define and connect a new Web3 provider
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
@@ -188,7 +188,7 @@ contract3 = load_contract3()
 ################################################################################################
 # Streamlit page building
 #################################################################################################
-st.image("./Images/Cryptos.jpeg")
+st.image("./Images/Cryptos.PNG")
 st.title("Numisma")
 st.title("Crypto Investment Index Portfolio Management")
 # st.write("Learn about your options")
@@ -219,9 +219,9 @@ st.markdown("---")
 
 ##################################################################################
 
-portfolios_dict = {'Metadex Portfolio': {'Contract':contract1,'Price':0.30001,'Logo':'Images/Metadex_chart.png', 'Description':'Metaverse is the technology behind a virtual universe where people can shop, game, buy and trade currencies and objects and more. Think of it as a combination of augmented reality, virtual reality, social media, gaming and cryptocurrencies. This Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.','Pie':'Images/metaPIE.PNG','ShortName':'Metadex'}, 
-                   'Ventidex Portfolio':{'Contract':contract2,'Price':0.30001,'Logo':'Images/Metadex_chart.png', 'Description':'Market cap allows you to compare the total value of one cryptocurrency with another so you can make more informed investment decisions. Cryptocurrencies are classified by their market cap into three categories: Large-cap cryptocurrencies, including Bitcoin and Ethereum, have a market cap of more than $10 billion.', 'Creation':'Why and how we came up with this index','Pie':'Images/coinbasePIE.PNG','ShortName':'Ventidex'},
-                   'Farmdex Portfolio':{'Contract':contract3,'Price':0.30001,'Logo':'Images/Metadex_chart.png', 'Description':'Yield farming is an investment strategy in decentralised finance or DeFi. It involves lending or staking your cryptocurrency coins or tokens to get rewards in the form of transaction fees or interest.', 'Creation':'Why and how we came up with this index','Pie':'Images/farmPIE.PNG','ShortName':'Farmdex'}}
+portfolios_dict = {'Metadex Portfolio': {'Contract':contract1,'Price':1.2,'Logo':'Images/Metadex_chart.png', 'Description':'Metaverse is the technology behind a virtual universe where people can shop, game, buy and trade currencies and objects and more. Think of it as a combination of augmented reality, virtual reality, social media, gaming and cryptocurrencies. This Index is designed to capture the trend of entertainment, sports and business shifting to a virtual environment.', 'Creation':'For this Index Weight Calculation, we uses a combination of root market cap and liquidity weighting to arrive at the final index weights. We believe that liquidity is an important consideration in this space and should be considered when determining portfolio allocation.','Pie':'Images/metaPIE.PNG','ShortName':'Metadex'}, 
+                   'Ventidex Portfolio':{'Contract':contract2,'Price':1.2,'Logo':'Images/Metadex_chart.png', 'Description':'Market cap allows you to compare the total value of one cryptocurrency with another so you can make more informed investment decisions. Cryptocurrencies are classified by their market cap into three categories: Large-cap cryptocurrencies, including Bitcoin and Ethereum, have a market cap of more than $10 billion.', 'Creation':'Why and how we came up with this index','Pie':'Images/coinbasePIE.PNG','ShortName':'Ventidex'},
+                   'Farmdex Portfolio':{'Contract':contract3,'Price':1.2,'Logo':'Images/Metadex_chart.png', 'Description':'Yield farming is an investment strategy in decentralised finance or DeFi. It involves lending or staking your cryptocurrency coins or tokens to get rewards in the form of transaction fees or interest.', 'Creation':'Why and how we came up with this index','Pie':'Images/farmPIE.PNG','ShortName':'Farmdex'}}
 
 #################################################################################
 # Sidebar setup
@@ -271,7 +271,7 @@ m3_return = etf_return.iloc[-90][etf_name]
 m6_return = etf_return.iloc[-180][etf_name]
 
 container0 = st.container()
-col1, col2, col3, col4, col5, col6, col7, col8, col9, col10  = st.columns(10)
+col1, col2, col3, col4, col5, col6, col7, col8  = st.columns(8)
 
 with container0:
     with col1:
@@ -285,7 +285,7 @@ with container0:
         st.metric("1M", "", f"{round((curr_return-m1_return)/m1_return*100,1)}%")
     with col5:
         st.metric("3M", "",  f"{round((curr_return-m3_return)/m3_return*100,1)}%")
-    with col10:
+    with col8:
         st.caption("Since Intercept")
         st.metric(orig_date.strftime('%m/%d/%Y'), "$1000",  f"{round((curr_return-1.0)/1.0*100,1)}%")     
 # Style Code
