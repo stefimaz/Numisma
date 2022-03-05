@@ -31,53 +31,36 @@ Our mission is to provide the everyday investor with the knowledge and tools to 
 
 ## Executive Summary
 
-As our mission states, we have created a new tool that allows our investors to invest in crypto with simplicity, cost reduction and decentralization using ERC721 standards. 
+In our attempt to stay true to our mission, we have created a new tool that allows our investors to invest in the crypto market with simplicity, cost reduction and decentralization using solidity contracts under ERC721 standards. 
 
-In our interactive MVP application, the investor can invest in three options. This app will prompt you to select yield farm index [FarmDex], metaverse index [MetDex] or large coin index [VentiDex] using our asset allocation model created by a function modern portfolio theory. You will also be able to connect your ganache to purchase the invesment and take a realtime photo to buy and register your investment on the blackchain. 
+Our portfolios were designed with weights deriving from the modern portfolio theory. In streamlit, you will be able to assess each of the crypto currencies within each portfolio with its returns over different holding periods. 
 
-We have included solidity contracts, ganache and 
+In our interactive MVP application, the user can invest in three options. This app will prompt you to select yield farm index [FarmDex], metaverse index [MetDex] or large coin index [VentiDex] using our asset allocation model using the modern portfolio theory. The user can connect to the ganache and purchase the invesment while taking a realtime photo to buy and register the investment on the blackchain.
+
+We also introduced our social media content that shares tweets and likes of the top influencers in the field of crytocurrency. Additionally we can provide a list of followers of these influencers to tarket as future advertizing targets. Please enjoy. 
+
 
 
 ---
 
 ## Requirements
 
-API keys needed will be visible sample.env file 
+This project leverages python 3.7, streamlit and solidity. The remainder of the requirements can be found in the requirements file.
 
-
-import CryptoDownloadData as coinData
-import pandas as pd
-
-from pycoingecko import CoinGeckoAPI
-cg = CoinGeckoAPI()
-
-
-$ pip install yfinance --upgrade --no-cache-dir
-$ pip install streamlit-aggrid
-$ pip install tweepy
-$ pip install cufflinks --upgrade
-$ pip install chart_studio
-
+In order to run this application, you must secure the folowing APIs. You will see the breakdown of the keys and secrets in our sample.env file.
 
 Installation instructions
-$ pip install yfinance --upgrade --no-cache-dir
-$ pip install streamlit-aggrid
-$ Pip install tweepy
-This project leverages python 3.7 Streamlit and scikit-learn.
 
-A [conda](https://docs.conda.io/en/latest/) environment with liabraries listed below and [Jupyter Notebook/Lab](https://jupyter.org/) are required to run the code.
-
-The following library was used:
-
-1. [Scikit Learn](https://scikit-learn.org/stable/index.html) - Scikit Learn or Sklearn is one of the most used Python libraries for Data Science, along with others like Numpy, Pandas, Tensorflow, or Keras.
-
-2. [Streamlit](https://streamlit.io/) - Streamlit turns data scripts into shareable web apps in minutes.
-
-
-Install the following librarie(s) in your terminal...
-
-    pip install -U scikit-learn
-    pip install streamlit
+pip install yfinance --upgrade --no-cache-dir
+pip install streamlit-aggrid
+pip install tweepy
+pip install cufflinks --upgrade
+pip install chart_studio
+pip install pycoingecko
+pip install web3==5.17
+pip install eth-tester==0.5.0b3
+pip install mnemonic
+pip install bip44
  
 ---
 
@@ -97,56 +80,54 @@ Install the following librarie(s) in your terminal...
 ### Streamlit Image of MetaDex Portfolio
 ![MetaDex](Images/MetaDex.PNG)
 
-### Showing the scores being predicted 
-![score_predictor](Images/back_end_score_predictor.PNG)
+### Select the Index for analysis
+![Choose Index](Images/choose_index_annalysis.PNG)
+
+### Buy now
+![Choose Model](Images/choose_model.PNG)
+
+### Take Photo and Register
+![Photo](Images/click_run_praedico.PNG)
 
 ### Social Media Content
 ![twitter](Images/twitter.PNG)
-
-
-## Front end application images
-
-### Select the team for analysis
-![Choose Team](Images/choose_team_annalysis.PNG)
-
-### Choose the model
-![Choose Model](Images/choose_model.PNG)
-
-### Run the model for projection
-![Run Praedico](Images/click_run_praedico.PNG)
-
-### The WINNER is... 
-![Winner Praedico](Images/winner_prediction.PNG)
 
 ---
 
 ## User Experience
 
-Go to the Anaconda Prompt to launch JupyterLab by typing Jupyter Lab. To use this application simply clone the repository and run the NFL_Dashboard.py in your Jupyter Lab. Open a terminal and input streamlit run NFL_Dashboard.py or simply choose from the two options below.
-
-
-Please experience Praedico for yourself. Choose between the following... 
-
-1) CLICK 
-
-2) SCAN the QR Reader using the camera from your phone. 
-
-![QR_Reader](images/qr_reader.PNG)
-
+To use this application simply clone the repository and run the XXXX.py in your Jupyter Lab. Open a terminal and input streamlit run XXXX.py. Due to connecting to web3 we were unable to provide a link to the streamlit application.
 
 ---
 
 ## Presentation Deck
 
-https://www.canva.com/design/DAE5wI_OonA/zFJJ5TdGuH_ECA2JeHIAFQ/view?utm_content=DAE5wI_OonA&utm_campaign=designshare&utm_medium=link&utm_source=shareyourdesignpanel#16
+##### CLICK to review Presentation Deck:
+https://www.canva.com/design/DAE5wI_OonA/zFJJ5TdGuH_ECA2JeHIAFQ/view?utm_content=DAE5wI_OonA&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
 
 ---
 
 
 ## License
 
-MIT
+Copyright (c) 2022 Briggs Lalor, Ken Lee, Stephane Masyn and John Sung
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ---
-
-
