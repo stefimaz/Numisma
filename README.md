@@ -79,17 +79,17 @@ pip install bip44
 ### Streamlit Image of MetaDex Portfolio
 ![MetaDex](Images/MetaDex.PNG)
 
-### Select the Index for analysis
-![Choose Index](Images/choose_index_annalysis.PNG)
-
 ### Buy now
-![Choose Model](Images/choose_model.PNG)
+![Buy](Images/Buying_demo.gif)
 
 ### Take Photo and Register
-![Photo](Images/click_run_praedico.PNG)
+![Photo](Images/Register_demo.gif)
 
 ### Social Media Content
 ![twitter](Images/twitter.PNG)
+
+### Full Demo
+![Full Demo](Images/Full_demo.gif)
 
 ---
 
