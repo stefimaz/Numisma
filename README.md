@@ -107,7 +107,7 @@ https://www.canva.com/design/DAE5wI_OonA/zFJJ5TdGuH_ECA2JeHIAFQ/view?utm_content
 
 ---
 ## API Subscription
-See Sample.api
+See Sample.env
 
 ## License
 
