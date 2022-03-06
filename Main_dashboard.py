@@ -254,7 +254,7 @@ run_date = date(2022, 3, 3) #date.today() # TODO: date can be changed from UI
 
 ##################### load Data ##################
 curr_weight = coinData.get_etf_weight_by_date(etf_name, run_date)
-orig_date = date(2021, 7, 15) # Intercept date -- do not change
+orig_date = date(2021, 7, 15) # Inception date -- do not change
 orig_weight = coinData.get_etf_weight_by_date(etf_name, orig_date)
 
 px_strat = coinData.get_base_pxchanges_matrix(run_date)
@@ -286,7 +286,7 @@ with container0:
     with col5:
         st.metric("3M", "",  f"{round((curr_return-m3_return)/m3_return*100,1)}%")
     with col8:
-        st.caption("Since Intercept")
+        st.caption("Since Inception")
         st.metric(orig_date.strftime('%m/%d/%Y'), "$1000",  f"{round((curr_return-1.0)/1.0*100,1)}%")     
 # Style Code
 cellsytle_jscode = JsCode(
@@ -327,7 +327,7 @@ gridOptions = {
         {"field": "1_Month", "headerName": '1 Month', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
         {"field": "3_Months", "headerName": '3 Months', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
         {"field": "1_Year", "headerName": '1 Year', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
-        {"field": "Since_Intercept", "headerName": 'Since Intercept', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"}, 
+        {"field": "Since_Inception", "headerName": 'Since Inception', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"}, 
         {"field": "Return", "headerName": 'Return', "valueFormatter": "(x*1).toFixed(2)","cellStyle":cellsytle_jscode,"type":"numericColumn"},
         {"field": "Start_PX", "headerName": 'Start PX',"valueFormatter": "(x*1).toFixed(2)","type":"numericColumn"},
 
