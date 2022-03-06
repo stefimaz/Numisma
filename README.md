@@ -50,14 +50,23 @@ In order to run this application, you must secure the folowing APIs. You will se
 Installation instructions
 
 pip install yfinance --upgrade --no-cache-dir
+
 pip install streamlit-aggrid
+
 pip install tweepy
+
 pip install cufflinks --upgrade
+
 pip install chart_studio
+
 pip install pycoingecko
+
 pip install web3==5.17
+
 pip install eth-tester==0.5.0b3
+
 pip install mnemonic
+
 pip install bip44
  
 ---
@@ -72,7 +81,20 @@ pip install bip44
 ### Streamlit Image of MetaDex Portfolio
 ![MetaDex](Images/MetaDex.PNG)
 
+### Streamlit Image of Social Media
+![Twitter](Images/twitter.PNG)
 
+### Portfoilio Demo
+![Portfolio](Images/Portfolio_demo.gif)
+
+### Buy Demo
+![Buy](Images/Buying_demo.gif)
+
+### Register Demo
+![Register](Images/Register_demo.gif)
+
+### Full Demo
+![MetaDex](Images/Full_demo.gif)
 
 ---
 
