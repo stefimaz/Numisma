@@ -63,7 +63,7 @@ pip install bip44
  
 ---
 
-## Visualization
+## Web Visualization
 
 ## Front end application images
 
@@ -86,9 +86,16 @@ pip install bip44
 ![Full Demo](Images/Full_demo.gif)
 
 ---
+## Back-End - Analytics and Pricing 
+### Data Centralization
+- CryptoDownloadData.py: Latest market data sourcing thru APIs.
+- References/crypto.db: Datawarehouse 
+### Analytics Library
+- CryptoPerfSummary.py: Data Noarmization and Regression, Pricing Analytics functions
+- EfficientFrontierCalculator.py: Efficient Frontier Calculation
+- Get_index_data.py: Portfolio Weight and USD based allocation per coin w/ pycoingecko
 
-## User Experience
-
+### User Experience
 To use this application simply clone the repository and run the Main_dashboard.py in your Jupyter Lab. Open a terminal and input streamlit run Main_dashboard.py. Due to connecting to web3 we were unable to provide a link to the streamlit application.
 
 ---
@@ -99,7 +106,8 @@ To use this application simply clone the repository and run the Main_dashboard.p
 https://www.canva.com/design/DAE5wI_OonA/zFJJ5TdGuH_ECA2JeHIAFQ/view?utm_content=DAE5wI_OonA&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
 
 ---
-
+## API Subscription
+See Sample.api
 
 ## License
 
