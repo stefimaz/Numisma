@@ -39,8 +39,6 @@ In our interactive MVP application, the user can invest in three options. This a
 
 We also introduced our social media content that shares tweets and likes of the top influencers in the field of crytocurrency. Additionally we can provide a list of followers of these influencers to tarket as future advertizing targets. Please enjoy. 
 
-
-
 ---
 
 ## Requirements
@@ -50,6 +48,7 @@ This project leverages python 3.7, streamlit and solidity. The remainder of the 
 In order to run this application, you must secure the folowing APIs. You will see the breakdown of the keys and secrets in our sample.env file.
 
 Installation instructions
+
 pip install yfinance --upgrade --no-cache-dir
 pip install streamlit-aggrid
 pip install tweepy
@@ -73,30 +72,7 @@ pip install bip44
 ### Streamlit Image of MetaDex Portfolio
 ![MetaDex](Images/MetaDex.PNG)
 
-### Social Media Content
-![twitter](Images/twitter.PNG)
 
-### Buy now
-![Buy](Images/Buying_demo.gif)
-
-### Take Photo and Register
-![Photo](Images/Register_demo.gif)
-
-### Full Demo
-![Full Demo](Images/Full_demo.gif)
-
----
-## Back-End - Data, Analytics and Pricing 
-### Data Centralization
-- CryptoDownloadData.py: Latest market data sourcing thru APIs.
-- References/crypto.db: Datawarehouse 
-### Analytics Library
-- CryptoPerfSummary.py: Data Noarmization and Regression, Pricing Analytics functions
-- EfficientFrontierCalculator.py: Efficient Frontier Calculation
-- Get_index_data.py: Portfolio Weight and USD based allocation per coin w/ pycoingecko
-
-### User Experience
-To use this application simply clone the repository and run the Main_dashboard.py in your Jupyter Lab. Open a terminal and input streamlit run Main_dashboard.py. Due to connecting to web3 we were unable to provide a link to the streamlit application.
 
 ---
 
@@ -112,6 +88,7 @@ See Sample.env
 ## License
 
 Copyright (c) 2022 Briggs Lalor, Ken Lee, Stephane Masyn and John Sung
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -132,5 +109,3 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ---
-
-
