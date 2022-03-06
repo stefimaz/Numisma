@@ -81,7 +81,20 @@ pip install bip44
 ### Streamlit Image of MetaDex Portfolio
 ![MetaDex](Images/MetaDex.PNG)
 
+### Streamlit Image of Social Media
+![Twitter](Images/twitter.PNG)
 
+### Portfoilio Demo
+![Portfolio](Images/Portfolio_demo.gif)
+
+### Buy Demo
+![Buy](Images/Buying_demo.gif)
+
+### Register Demo
+![Register](Images/Register_demo.gif)
+
+### Full Demo
+![MetaDex](Images/Full_demo.gif)
 
 ---
 
