@@ -35,7 +35,7 @@ In our attempt to stay true to our mission, we have created a new tool that allo
 
 Our portfolios were designed with weights deriving from the modern portfolio theory. In streamlit, you will be able to assess each of the crypto currencies within each portfolio with its returns over different holding periods. 
 
-In our interactive MVP application, the user can invest in three options. This app will prompt you to select yield farm index [FarmDex], metaverse index [MetDex] or large coin index [VentiDex] using our asset allocation model using the modern portfolio theory. The user can connect to ganache, or his personnal wallet, and purchase the investment while taking a realtime photo to buy and register it on the blockchain.
+In our interactive MVP application, the user can invest in three options. This app will prompt you to select yield farm index [FarmDex], metaverse index [MetDex] or large coin index [VentiDex] using our asset allocation model using the modern portfolio theory. The user can connect to ganache, or his personal wallet, and purchase the investment while taking a realtime photo to buy and register it on the blockchain.
 
 We also introduced our social media content that shares tweets and likes of the top influencers in the field of crytocurrency. Additionally we can provide a list of followers of these influencers to tarket as future advertizing targets. Please enjoy. 
 
