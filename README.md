@@ -17,8 +17,8 @@
 * [Our Mission](#our-mission)
 * [Executive Summary](#executive-summary)
 * [Requirements](#requirements)
-* [Data](#data)
-* [Visualization](#visualization)
+* [Web Visualization](#visualization)
+* [BackEnd](#data)
 * [User Experience](#user-experience)
 * [Presentation Deck](#Presentation-Deck)
 * [License](#license)  
@@ -86,7 +86,7 @@ pip install bip44
 ![Full Demo](Images/Full_demo.gif)
 
 ---
-## Back-End - Analytics and Pricing 
+## Back-End - Data, Analytics and Pricing 
 ### Data Centralization
 - CryptoDownloadData.py: Latest market data sourcing thru APIs.
 - References/crypto.db: Datawarehouse 
