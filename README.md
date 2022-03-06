@@ -63,12 +63,6 @@ pip install bip44
  
 ---
 
-## Data
-
-
-
----
-
 ## Visualization
 
 ## Front end application images
@@ -95,7 +89,7 @@ pip install bip44
 
 ## User Experience
 
-To use this application simply clone the repository and run the XXXX.py in your Jupyter Lab. Open a terminal and input streamlit run XXXX.py. Due to connecting to web3 we were unable to provide a link to the streamlit application.
+To use this application simply clone the repository and run the Main_dashboard.py in your Jupyter Lab. Open a terminal and input streamlit run Main_dashboard.py. Due to connecting to web3 we were unable to provide a link to the streamlit application.
 
 ---
 
