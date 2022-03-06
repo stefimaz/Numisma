@@ -17,8 +17,8 @@
 * [Our Mission](#our-mission)
 * [Executive Summary](#executive-summary)
 * [Requirements](#requirements)
-* [Data](#data)
-* [Visualization](#visualization)
+* [Web Visualization](#visualization)
+* [BackEnd](#data)
 * [User Experience](#user-experience)
 * [Presentation Deck](#Presentation-Deck)
 * [License](#license)  
@@ -38,8 +38,6 @@ Our portfolios were designed with weights deriving from the modern portfolio the
 In our interactive MVP application, the user can invest in three options. This app will prompt you to select yield farm index [FarmDex], metaverse index [MetDex] or large coin index [VentiDex] using our asset allocation model using the modern portfolio theory. The user can connect to the ganache and purchase the invesment while taking a realtime photo to buy and register the investment on the blackchain.
 
 We also introduced our social media content that shares tweets and likes of the top influencers in the field of crytocurrency. Additionally we can provide a list of followers of these influencers to tarket as future advertizing targets. Please enjoy. 
-
-
 
 ---
 
@@ -64,13 +62,7 @@ pip install bip44
  
 ---
 
-## Data
-
-
-
----
-
-## Visualization
+## Web Visualization
 
 ## Front end application images
 
@@ -80,23 +72,7 @@ pip install bip44
 ### Streamlit Image of MetaDex Portfolio
 ![MetaDex](Images/MetaDex.PNG)
 
-### Select the Index for analysis
-![Choose Index](Images/Portfolio_demo.gif)
 
-### Buy now
-![Choose Model](Images/Buying_demo.gif)
-
-### Take Photo and Register
-![Photo](Images/click_run_praedico.PNG)
-
-### Social Media Content
-![twitter](Images/twitter.PNG)
-
----
-
-## User Experience
-
-To use this application simply clone the repository and run the XXXX.py in your Jupyter Lab. Open a terminal and input streamlit run XXXX.py. Due to connecting to web3 we were unable to provide a link to the streamlit application.
 
 ---
 
@@ -106,11 +82,13 @@ To use this application simply clone the repository and run the XXXX.py in your 
 https://www.canva.com/design/DAE5wI_OonA/zFJJ5TdGuH_ECA2JeHIAFQ/view?utm_content=DAE5wI_OonA&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
 
 ---
-
+## API Subscription
+See Sample.env
 
 ## License
 
 Copyright (c) 2022 Briggs Lalor, Ken Lee, Stephane Masyn and John Sung
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
